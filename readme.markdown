@@ -7,5 +7,6 @@ Features
 --------------------
 * Event/Message Loop Handling
 * OpenGL Window
-* Input
+* Input Handling
+* Xcb/Win32 Backend
 

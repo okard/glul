@@ -17,46 +17,4 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */ 
 
-#include "EventLoop.hpp"
-
-/**
-* Constructor
-*/
-EventLoop::EventLoop() : EventLoopImpl(this), result(0)
-{
-}
-
-/**
-* Destructor
-*/
-EventLoop::~EventLoop()
-{
-
-}
- 
-/**
-* get singelton instance
-*/
-EventLoop& EventLoop::getSingleton()
-{
-    return instance;
-}
-
-/**
-* get singleton pointer
-*/
-EventLoop* EventLoop::getSingletonPtr()
-{
-    return &instance;
-}
-
-/**
-* run event loop
-*/
-int EventLoop::run()
-{
-    while(getEvent())
-    {
-        dispatch();
-    }
-}
+#include "EventLoopImpl.hpp"

@@ -17,46 +17,23 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */ 
 
-#include "EventLoop.hpp"
+#ifndef __EVENTLOOPIMPL_H__
+#define __EVENTLOOPIMPL_H__
 
 /**
-* Constructor
+* XCB Event Loop Impl
 */
-EventLoop::EventLoop() : EventLoopImpl(this), result(0)
+template<class T> class EventLoopImpl
 {
-}
+  private:
+    /// pointer to root instance
+    T* evtlp;
+    
+  public:
+    EventLoopImpl(T* eventlp);
+    ~EventLoopImpl();
+  
+  
+};
 
-/**
-* Destructor
-*/
-EventLoop::~EventLoop()
-{
-
-}
- 
-/**
-* get singelton instance
-*/
-EventLoop& EventLoop::getSingleton()
-{
-    return instance;
-}
-
-/**
-* get singleton pointer
-*/
-EventLoop* EventLoop::getSingletonPtr()
-{
-    return &instance;
-}
-
-/**
-* run event loop
-*/
-int EventLoop::run()
-{
-    while(getEvent())
-    {
-        dispatch();
-    }
-}
+#endif /* __EVENTLOOPIMPL_H__ */

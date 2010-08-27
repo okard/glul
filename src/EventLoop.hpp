@@ -20,27 +20,74 @@
 #ifndef __EVENTLOOP_H__
 #define __EVENTLOOP_H__
 
+/*
+* Include Platform Implementation
+*/
+#ifdef WIN32
+  #include "win32/EventLoopImpl.hpp"
+#else
+  #include "xcb/EventLoopImpl.hpp"
+#endif
+
 /**
 * Represents a game loop
 */
-class EventLoop
+class EventLoop : EventLoopImpl<EventLoop>
 {  
+    private:
+        /// Event Loop Singleton
         static EventLoop instance;
         
+        /**
+        * Private Constructor
+        */
         EventLoop();
+
+        /**
+        * Destructor
+        */
         ~EventLoop();
+    
+    protected:
+        /// event loop result
+        int result;
+    
     public:  
         
+        /**
+        * \brief get a new event
+        */
         bool getEvent();
+        
+        /**
+        * \brief peek a new event
+        */
         bool peekEvent();
+
+        /**
+        * \brief dispatch events
+        */
         bool dispatch();
         
+        /**
+        * \brief Run event loop
+        */
         int run();
 
+        /**
+        * \brief get singleton instance
+        */
         static EventLoop& getSingleton();
+
+        /**
+        * \brief get singleton pointer
+        */
         static EventLoop* getSingletonPtr();
 };
 
+/**
+* Shortcut define to access event loop instance 
+*/
 #define EventLoopPtr EventLoop::getSingletonPtr() 
 
 
