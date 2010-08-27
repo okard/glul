@@ -32,9 +32,8 @@
 /**
 * Represents a game loop
 */
-class EventLoop : public EventLoopImpl<EventLoop>
+class EventLoop : public EventLoopImpl
 { 
-    friend class EventLoopImpl;
   
     private:
         /// Event Loop Singleton
@@ -49,10 +48,6 @@ class EventLoop : public EventLoopImpl<EventLoop>
         * Destructor
         */
         ~EventLoop();
-    
-    protected:
-        /// event loop result
-        int result;
     
     public:  
         

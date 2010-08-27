@@ -22,17 +22,14 @@
 
 #include <xcb/xcb.h>
 
+#include "base/EventLoopBase.hpp"
 
 /**
 * XCB Event Loop Impl
 */
-template <class T>
-class EventLoopImpl
+class EventLoopImpl : public EventLoopBase
 {
   private:
-    /// pointer to root instance
-    T* eventlp;
-    
     //XCB Variables
     
     /// the xcb connection
@@ -48,74 +45,39 @@ class EventLoopImpl
     /**
     * Constructor
     */
-    EventLoopImpl(T* eventlp)  : eventlp(eventlp), connection(0), screen(0), event(0)
-    {
-      init();
-    }
+    EventLoopImpl();
     
     /**
     * Destructor
     */
-    ~EventLoopImpl()
-    {
-      dispose();
-    }
+    ~EventLoopImpl();
     
     /**
     * \brief get a new event
     */
-    bool getEvent()
-    {
-        event = xcb_wait_for_event(connection);
-    }
+    bool getEvent();
         
     /**
     * \brief peek a new event
     */
-    bool peekEvent()
-    {
-        //wrong?
-        event = xcb_poll_for_event(connection);
-    }
+    bool peekEvent();
 
     /**
     * \brief dispatch events
     */
-    bool dispatch()
-    {
-        //dispatch to Window here
-      
-        delete event;
-        event = 0;
-    }
+    bool dispatch();
       
     
   private:
     /**
     * Initialize XCB event loop
     */
-    void init()
-    {
-        //Initialize connection to xserver
-        connection = xcb_connect(NULL, NULL);
-        if (xcb_connection_has_error(connection)) 
-        {
-          //Error Handling
-          //Log(LogType.Fatal, "Cannot open display");
-          eventlp->result = 1;
-        }
-        
-        /* get the first screen */
-        screen = xcb_setup_roots_iterator( xcb_get_setup(connection) ).data;
-    }
+    void init();
     
     /**
     * Dispose event loop
     */
-    void dispose()
-    {
-        xcb_disconnect(connection);
-    }
+    void dispose();
 };
 
 #endif /* __EVENTLOOPIMPL_H__ */

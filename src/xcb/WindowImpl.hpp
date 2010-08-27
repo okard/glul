@@ -15,17 +15,27 @@
     You should have received a copy of the GNU General Public License along
     with this program; if not, write to the Free Software Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/ 
+*/
 
-#include <EventLoop.hpp>
-#include <Window.hpp>
+#ifndef __WINDOWIMPL_H__
+#define __WINDOWIMPL_H__
 
+#include <xcb/xcb.h>
 
-int main(int argc, char *argv[])
+#include "base/WindowBase.hpp"
+
+/**
+* \brief XCB Window Implementation
+*/
+class WindowImpl : public WindowBase
 {
-  Window* w = new Window();
-  w->show();
+  private:
   
-  
-  return EventLoopPtr->run();
-}
+  public:
+    void show();
+    
+    
+    static void dispatch(xcb_generic_event_t* ev);
+};
+
+#endif /* __WINDOWIMPL_H__ */

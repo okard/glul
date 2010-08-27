@@ -15,17 +15,15 @@
     You should have received a copy of the GNU General Public License along
     with this program; if not, write to the Free Software Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/ 
+*/
+ 
+#include "WindowBase.hpp"
 
-#include <EventLoop.hpp>
-#include <Window.hpp>
-
-
-int main(int argc, char *argv[])
+WindowBase::WindowBase()
 {
-  Window* w = new Window();
-  w->show();
-  
-  
-  return EventLoopPtr->run();
+}
+
+
+WindowBase::~WindowBase()
+{
 }

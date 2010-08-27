@@ -24,7 +24,7 @@ EventLoop* EventLoop::instance = new EventLoop();
 /**
 * Constructor
 */
-EventLoop::EventLoop() : EventLoopImpl(this), result(0)
+EventLoop::EventLoop()
 {
 }
 
@@ -86,3 +86,4 @@ int EventLoop::run()
         dispatch();
     }
 }
+

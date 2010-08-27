@@ -15,17 +15,24 @@
     You should have received a copy of the GNU General Public License along
     with this program; if not, write to the Free Software Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/ 
+*/  
 
-#include <EventLoop.hpp>
-#include <Window.hpp>
+#ifndef __EVENTLOOPBASE_H__
+#define __EVENTLOOPBASE_H__
 
-
-int main(int argc, char *argv[])
-{
-  Window* w = new Window();
-  w->show();
+/**
+* Represents a game loop
+*/
+class EventLoopBase
+{ 
+  protected:
+      int result;
+      
+  protected:
+      EventLoopBase();
+      ~EventLoopBase();
   
-  
-  return EventLoopPtr->run();
-}
+};
+
+
+#endif /*__EVENTLOOPBASE_H__*/

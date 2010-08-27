@@ -11,14 +11,18 @@ INCLUDE_DIRECTORIES(src)
 IF(WIN32)
   set(GLUL_PLATFORM_SRC src/win32/EventLoopImpl.cpp)
 ELSE()
-  #set(GLUL_PLATFORM_SRC src/xcb/EventLoopImpl.cpp)
+  set(GLUL_PLATFORM_SRC src/xcb/EventLoopImpl.cpp
+                        src/xcb/WindowImpl.cpp)
   set(GLUL_PLATFORM_LIBS "xcb")
 ENDIF()
 
 # Library
 ADD_LIBRARY(glul 
             ${GLUL_PLATFORM_SRC}
-            src/EventLoop.cpp)
+            src/base/EventLoopBase.cpp
+            src/EventLoop.cpp
+            src/base/WindowBase.cpp
+            src/Window.cpp)
 
 TARGET_LINK_LIBRARIES(glul ${GLUL_PLATFORM_LIBS})
 
