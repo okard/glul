@@ -27,6 +27,7 @@ class EventLoopBase
 { 
   protected:
       int result;
+      bool running;
       
   protected:
       EventLoopBase();

@@ -66,7 +66,17 @@ class EventLoopImpl : public EventLoopBase
     * \brief dispatch events
     */
     bool dispatch();
-      
+    
+    /**
+    * XCB Specific: get xcb connection
+    */
+    xcb_connection_t* xcbConnection();
+    
+    /**
+    * XCB Specific: get xcb screen
+    */
+    xcb_screen_t* xcbScreen();
+    
     
   private:
     /**

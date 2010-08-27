@@ -37,6 +37,9 @@ class Window : public WindowImpl
   private:
     
   public:
+    Window();
+    Window(const char* title, int width, int height);
+    ~Window();
     
 };
 

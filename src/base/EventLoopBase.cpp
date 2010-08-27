@@ -20,7 +20,7 @@
 #include "EventLoopBase.hpp"
 
 
-EventLoopBase::EventLoopBase()
+EventLoopBase::EventLoopBase() : running(true)
 {
   
 }

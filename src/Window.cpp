@@ -19,3 +19,16 @@
 
 #include "Window.hpp"
 
+Window::Window()
+{
+  this-> initialize("GLUL", 800, 600);
+}
+
+Window::Window(const char* title, int width, int height)
+{
+  this-> initialize(title, width, height);
+}
+
+Window::~Window()
+{
+}

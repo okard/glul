@@ -42,7 +42,7 @@ EventLoopImpl::~EventLoopImpl()
 */
 bool EventLoopImpl::getEvent()
 {
-   event = xcb_wait_for_event(connection);
+   return running && (event = xcb_wait_for_event(connection));
 }
         
 /**
@@ -51,7 +51,7 @@ bool EventLoopImpl::getEvent()
 bool EventLoopImpl::peekEvent()
 {
     //wrong?
-    event = xcb_poll_for_event(connection);
+    return running && (event = xcb_poll_for_event(connection));
 }
 
 /**
@@ -65,8 +65,23 @@ bool EventLoopImpl::dispatch()
     delete event;
     event = 0;
 }
-    
-    
+
+/**
+* XCB Specific: get xcb connection
+*/
+xcb_connection_t* EventLoopImpl::xcbConnection()
+{
+  return this->connection;
+}
+ 
+/**
+* XCB Specific: get xcb screen
+*/
+xcb_screen_t* EventLoopImpl::xcbScreen()
+{
+  return this->screen;
+}
+      
 /**
 * Initialize XCB event loop
 */

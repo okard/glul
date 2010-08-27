@@ -30,6 +30,13 @@
 class WindowImpl : public WindowBase
 {
   private:
+    xcb_window_t        window; //window
+    xcb_gcontext_t      gc; //graphic context
+    uint32_t            mask; //mask for values               
+    uint32_t            values[2]; //parameter values 
+  
+  protected:
+    void initialize(const char* title, int width, int height);
   
   public:
     void show();

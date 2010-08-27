@@ -70,6 +70,11 @@ class EventLoop : public EventLoopImpl
         * \brief Run event loop
         */
         int run();
+        
+        /**
+        * Exit event loop
+        */
+        void exit(int result);
 
         /**
         * \brief get singleton instance

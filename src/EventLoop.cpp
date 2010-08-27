@@ -59,6 +59,27 @@ bool EventLoop::dispatch()
 {
   return EventLoopImpl::dispatch();
 }
+
+/**
+* run event loop
+*/
+int EventLoop::run()
+{
+    while(getEvent())
+    {
+        dispatch();
+    }
+    return result;
+}
+
+/**
+* exit event loop
+*/
+void EventLoop::exit(int result)
+{
+  running = false;
+  this->result = result;
+}
  
 /**
 * get singelton instance
@@ -76,14 +97,5 @@ EventLoop* EventLoop::getSingletonPtr()
     return instance;
 }
 
-/**
-* run event loop
-*/
-int EventLoop::run()
-{
-    while(getEvent())
-    {
-        dispatch();
-    }
-}
+
 
