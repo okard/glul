@@ -32,7 +32,7 @@
 /**
 * Represents a game loop
 */
-class EventLoop : EventLoopImpl<EventLoop>
+class EventLoop : public EventLoopImpl<EventLoop>
 { 
     friend class EventLoopImpl;
   

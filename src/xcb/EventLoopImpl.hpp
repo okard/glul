@@ -45,13 +45,20 @@ class EventLoopImpl
     xcb_generic_event_t* event;
     
   public:
-    EventLoopImpl(T* eventlp)  : eventlp(eventlp)
+    /**
+    * Constructor
+    */
+    EventLoopImpl(T* eventlp)  : eventlp(eventlp), connection(0), screen(0), event(0)
     {
       init();
     }
     
+    /**
+    * Destructor
+    */
     ~EventLoopImpl()
     {
+      dispose();
     }
     
     /**
@@ -59,6 +66,7 @@ class EventLoopImpl
     */
     bool getEvent()
     {
+        event = xcb_wait_for_event(connection);
     }
         
     /**
@@ -66,6 +74,8 @@ class EventLoopImpl
     */
     bool peekEvent()
     {
+        //wrong?
+        event = xcb_poll_for_event(connection);
     }
 
     /**
@@ -73,6 +83,10 @@ class EventLoopImpl
     */
     bool dispatch()
     {
+        //dispatch to Window here
+      
+        delete event;
+        event = 0;
     }
       
     
@@ -93,6 +107,14 @@ class EventLoopImpl
         
         /* get the first screen */
         screen = xcb_setup_roots_iterator( xcb_get_setup(connection) ).data;
+    }
+    
+    /**
+    * Dispose event loop
+    */
+    void dispose()
+    {
+        xcb_disconnect(connection);
     }
 };
 
