@@ -19,6 +19,8 @@
 
 #include "EventLoop.hpp"
 
+EventLoop* EventLoop::instance = new EventLoop();
+
 /**
 * Constructor
 */
@@ -33,13 +35,37 @@ EventLoop::~EventLoop()
 {
 
 }
+
+/**
+* \brief get a new event
+*/
+bool EventLoop::getEvent()
+{
+  return EventLoopImpl::getEvent();
+}
+
+/**
+* \brief peek a new event
+*/
+bool EventLoop::peekEvent()
+{
+  return EventLoopImpl::peekEvent();
+}
+
+/**
+* \brief dispatch events
+*/
+bool EventLoop::dispatch()
+{
+  return EventLoopImpl::dispatch();
+}
  
 /**
 * get singelton instance
 */
 EventLoop& EventLoop::getSingleton()
 {
-    return instance;
+    return *instance;
 }
 
 /**
@@ -47,7 +73,7 @@ EventLoop& EventLoop::getSingleton()
 */
 EventLoop* EventLoop::getSingletonPtr()
 {
-    return &instance;
+    return instance;
 }
 
 /**

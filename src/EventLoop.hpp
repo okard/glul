@@ -33,10 +33,12 @@
 * Represents a game loop
 */
 class EventLoop : EventLoopImpl<EventLoop>
-{  
+{ 
+    friend class EventLoopImpl;
+  
     private:
         /// Event Loop Singleton
-        static EventLoop instance;
+        static EventLoop* instance;
         
         /**
         * Private Constructor

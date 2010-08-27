@@ -17,43 +17,12 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */ 
 
-#include "EventLoopImpl.hpp"
+#include <EventLoop.hpp>
 
 
-EventLoopImpl::EventLoopImpl(EventLoop* eventlp) : eventlp(eventlp)
-{  
-  init();
-}
-
-EventLoopImpl::~EventLoopImpl()
+int main(int argc, char *argv[])
 {
-}
-
-/**
-* Initialize xcb event loop
-*/
-void EventLoopImpl::init()
-{
-
-}
-    
-/**
-* \brief get a new event
-*/  
-bool EventLoopImpl::getEvent()
-{
-}
-        
-/**
-* \brief peek a new event
-*/
-bool EventLoopImpl::peekEvent()
-{
-}
-
-/**
-* \brief dispatch events
-*/
-bool EventLoopImpl::dispatch()
-{
+  
+  
+  return EventLoopPtr->run();
 }

@@ -20,20 +20,80 @@
 #ifndef __EVENTLOOPIMPL_H__
 #define __EVENTLOOPIMPL_H__
 
+#include <xcb/xcb.h>
+
+
 /**
 * XCB Event Loop Impl
 */
-template<class T> class EventLoopImpl
+template <class T>
+class EventLoopImpl
 {
   private:
     /// pointer to root instance
-    T* evtlp;
+    T* eventlp;
+    
+    //XCB Variables
+    
+    /// the xcb connection
+    xcb_connection_t*    connection;
+
+    /// the xcb screen
+    xcb_screen_t*        screen;
+    
+    /// generic xcb event
+    xcb_generic_event_t* event;
     
   public:
-    EventLoopImpl(T* eventlp);
-    ~EventLoopImpl();
-  
-  
+    EventLoopImpl(T* eventlp)  : eventlp(eventlp)
+    {
+      init();
+    }
+    
+    ~EventLoopImpl()
+    {
+    }
+    
+    /**
+    * \brief get a new event
+    */
+    bool getEvent()
+    {
+    }
+        
+    /**
+    * \brief peek a new event
+    */
+    bool peekEvent()
+    {
+    }
+
+    /**
+    * \brief dispatch events
+    */
+    bool dispatch()
+    {
+    }
+      
+    
+  private:
+    /**
+    * Initialize XCB event loop
+    */
+    void init()
+    {
+        //Initialize connection to xserver
+        connection = xcb_connect(NULL, NULL);
+        if (xcb_connection_has_error(connection)) 
+        {
+          //Error Handling
+          //Log(LogType.Fatal, "Cannot open display");
+          eventlp->result = 1;
+        }
+        
+        /* get the first screen */
+        screen = xcb_setup_roots_iterator( xcb_get_setup(connection) ).data;
+    }
 };
 
 #endif /* __EVENTLOOPIMPL_H__ */
