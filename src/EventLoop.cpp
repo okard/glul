@@ -19,6 +19,9 @@
 
 #include "EventLoop.hpp"
 
+using namespace glul;
+
+// The EventLoop Instance
 EventLoop* EventLoop::instance = new EventLoop();
 
 /**

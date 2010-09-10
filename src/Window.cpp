@@ -19,6 +19,10 @@
 
 #include "Window.hpp"
 
+
+namespace glul
+{
+
 Window::Window()
 {
   this-> initialize("GLUL", 800, 600);
@@ -31,4 +35,6 @@ Window::Window(const char* title, int width, int height)
 
 Window::~Window()
 {
+}
+
 }

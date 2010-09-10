@@ -17,15 +17,15 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */ 
 
-#include <EventLoop.hpp>
-#include <Window.hpp>
+#include <glul/EventLoop>
+#include <glul/Window>
 
 
 int main(int argc, char *argv[])
 {
-  Window* w = new Window();
+  glul::Window* w = new glul::Window();
   w->show();
   
   
-  return EventLoopPtr->run();
+  return glul::EventLoopPtr->run();
 }

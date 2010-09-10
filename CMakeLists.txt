@@ -6,14 +6,15 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 PROJECT(glul)
 
 INCLUDE_DIRECTORIES(src)
+INCLUDE_DIRECTORIES(include)
 
 # Include Platform specific files to build
 IF(WIN32)
   set(GLUL_PLATFORM_SRC src/win32/EventLoopImpl.cpp)
 ELSE()
-  set(GLUL_PLATFORM_SRC src/xcb/EventLoopImpl.cpp
-                        src/xcb/WindowImpl.cpp)
-  set(GLUL_PLATFORM_LIBS "xcb")
+  set(GLUL_PLATFORM_SRC src/xlib/EventLoopImpl.cpp
+                        src/xlib/WindowImpl.cpp)
+  set(GLUL_PLATFORM_LIBS "X11")
 ENDIF()
 
 # Library

@@ -15,15 +15,42 @@
     You should have received a copy of the GNU Lesser General Public License along
     with this program; if not, write to the Free Software Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+*/ 
+
+#ifndef __WINDOWIMPL_H__
+#define __WINDOWIMPL_H__
+
+#include "base/WindowBase.hpp"
+
+
+#include <X11/Xlib.h>
+
+
+/**
+* \brief XLIB Window Implementation
 */
- 
-#include "WindowBase.hpp"
-
-WindowBase::WindowBase()
+class WindowImpl : public WindowBase
 {
-}
+  private:
+      ///Window
+      ::Window window;
+  
+  protected:
+      /**
+      * \brief initialize
+      */
+      void initialize(const char* title, int width, int height);
+  
+  public:
+      /**
+      * \brief show
+      */
+      void show();
+    
+      /**
+      * \brief dispatch
+      */
+      static void dispatch(XEvent& event);
+};
 
-
-WindowBase::~WindowBase()
-{
-}
+#endif /* __WINDOWIMPL_H__ */

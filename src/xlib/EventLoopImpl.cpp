@@ -16,14 +16,57 @@
     with this program; if not, write to the Free Software Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
- 
-#include "WindowBase.hpp"
 
-WindowBase::WindowBase()
+#include "EventLoopImpl.hpp"
+
+#include <glul/Window>
+
+/**
+* Constructor
+*/
+EventLoopImpl::EventLoopImpl()
+{
+    //Connect to X Server Display
+    display = XOpenDisplay(NULL);
+}
+    
+/**
+* Destructor
+*/
+EventLoopImpl::~EventLoopImpl()
 {
 }
-
-
-WindowBase::~WindowBase()
+    
+/**
+* \brief get a new event
+*/
+bool EventLoopImpl::getEvent()
 {
+    XNextEvent(display, &event);
+}
+        
+/**
+* \brief peek a new event
+*/
+bool EventLoopImpl::peekEvent()
+{
+    XPeekEvent(display, &event);
+}
+
+/**
+* \brief dispatch events
+*/
+bool EventLoopImpl::dispatch()
+{
+    glul::Window::dispatch(event);
+    
+    return true;
+}
+
+/**
+* Get Xlib Display
+*/
+Display* EventLoopImpl::xlibDisplay()
+{
+    return display;
 }

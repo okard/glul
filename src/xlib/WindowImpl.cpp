@@ -16,14 +16,29 @@
     with this program; if not, write to the Free Software Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
- 
-#include "WindowBase.hpp"
 
-WindowBase::WindowBase()
+#include "WindowImpl.hpp"
+
+
+
+#include <glul/EventLoop>
+
+
+void WindowImpl::initialize(const char* title, int width, int height)
+{
+    Display* dis = glul::EventLoopPtr->xlibDisplay();
+    int screen = DefaultScreen(dis);
+    window = XCreateSimpleWindow(dis, RootWindow(dis, screen), 1, 1, 500, 500, 0, BlackPixel (dis, screen), BlackPixel(dis, screen));
+
+    XMapWindow(dis, window);
+    XFlush(dis);
+}
+  
+void WindowImpl::show()
 {
 }
-
-
-WindowBase::~WindowBase()
+    
+    
+void WindowImpl::dispatch(XEvent& event)
 {
 }

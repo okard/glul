@@ -15,15 +15,61 @@
     You should have received a copy of the GNU Lesser General Public License along
     with this program; if not, write to the Free Software Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+*/ 
+
+#ifndef __EVENTLOOPIMPL_H__
+#define __EVENTLOOPIMPL_H__
+
+//Xlib Includes
+#include <X11/Xlib.h>
+#include <X11/Xutil.h>
+
+//Base Include
+#include "base/EventLoopBase.hpp"
+
+/**
+* XLIB Event Loop Impl
 */
- 
-#include "WindowBase.hpp"
-
-WindowBase::WindowBase()
+class EventLoopImpl : public EventLoopBase
 {
-}
+  private:
+    ///Display
+    Display *display;
+    
+    ///Event
+    XEvent event;
+    
+  public:
+    /**
+    * Constructor
+    */
+    EventLoopImpl();
+    
+    /**
+    * Destructor
+    */
+    ~EventLoopImpl();
+    
+    /**
+    * \brief get a new event
+    */
+    bool getEvent();
+        
+    /**
+    * \brief peek a new event
+    */
+    bool peekEvent();
 
+    /**
+    * \brief dispatch events
+    */
+    bool dispatch();
+    
+    /**
+    * \brief get xlib display
+    */
+    Display* xlibDisplay();
+    
+};
 
-WindowBase::~WindowBase()
-{
-}
+#endif /* __EVENTLOOPIMPL_H__ */
