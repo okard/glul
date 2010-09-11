@@ -19,11 +19,16 @@
  
 #include "WindowBase.hpp"
 
+/**
+* Window Base Constructor
+*/
 WindowBase::WindowBase()
 {
 }
 
-
+/**
+* Window Base Destructor
+*/
 WindowBase::~WindowBase()
 {
 }

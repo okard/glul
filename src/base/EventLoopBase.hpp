@@ -21,16 +21,27 @@
 #define __EVENTLOOPBASE_H__
 
 /**
-* Represents a game loop
+* \brief Represents a game loop
+* This class contains all variables and functions required
+* for platform implementations. 
 */
 class EventLoopBase
 { 
   protected:
+      /// the result of event loop
       int result;
+      /// event loop is currently running
       bool running;
       
   protected:
+      /**
+      * \brief Creates a new EventLoopBase
+      */
       EventLoopBase();
+      
+      /**
+      * \brief Destroy EventLoopBase instance 
+      */
       ~EventLoopBase();
   
 };

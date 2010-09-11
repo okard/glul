@@ -19,14 +19,16 @@
 
 #include "EventLoopBase.hpp"
 
-
+/**
+* EventLoopBase Constructor
+*/
 EventLoopBase::EventLoopBase() : running(true)
 {
-  
 }
 
-
+/**
+* EventLoopBase Destructor
+*/
 EventLoopBase::~EventLoopBase()
 {
-  
 }

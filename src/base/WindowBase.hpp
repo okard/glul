@@ -20,10 +20,22 @@
 #ifndef __WINDOWBASE_H__
 #define __WINDOWBASE_H__
 
+/**
+* \brief Window Base Class
+* This class contains all variables and function required for
+* platform implementations
+*/
 class WindowBase
 {
   protected:
+    /**
+    * \brief WindowBase constructor
+    */
     WindowBase();
+    
+    /**
+    * \brief WindowBase Destructor
+    */
     ~WindowBase();
   
 };
