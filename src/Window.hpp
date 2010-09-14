@@ -33,6 +33,8 @@
   #include "xlib/WindowImpl.hpp"
 #endif
 
+#include "WindowEvent.hpp"
+
 namespace glul
 {
     
@@ -45,13 +47,22 @@ class Window : public WindowImpl
     friend class WindowImpl;
     
     private:
-    
+        WindowEventHandler* eventHandler;
         
     public:
         Window();
         Window(const char* title, int width, int height);
         ~Window();
-    
+        
+        /**
+        * set event handler
+        */
+        void setEventHandler(WindowEventHandler* handler);
+        
+        /**
+        * get event handler
+        */
+        WindowEventHandler* getEventHandler();
 };
 
 } //end namespace glul

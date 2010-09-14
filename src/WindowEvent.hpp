@@ -37,7 +37,7 @@ class WindowEventHandler
         virtual ~WindowEventHandler(){}
     
     
-        virtual void OnPaint(PaintEvent& ev);
+        virtual void OnPaint(PaintEvent& ev){}
 };
 
     

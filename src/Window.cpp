@@ -29,17 +29,35 @@ namespace glul {
 
 
 Window::Window()
+    : eventHandler(0)
 {
   this-> initialize("GLUL", 800, 600);
 }
 
 Window::Window(const char* title, int width, int height)
+    : eventHandler(0)
 {
   this-> initialize(title, width, height);
 }
 
 Window::~Window()
 {
+}
+
+/**
+* set event handler
+*/
+void Window::setEventHandler(WindowEventHandler* handler)
+{
+    eventHandler = handler;
+}
+        
+/**
+* get event handler
+*/
+WindowEventHandler* Window::getEventHandler()
+{
+    return eventHandler;
 }
 
 }
