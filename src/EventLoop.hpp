@@ -47,6 +47,11 @@ class EventLoop : public EventLoopImpl
         * Private Constructor
         */
         EventLoop();
+        
+        /**
+        * Private Copy Constructor
+        */
+        EventLoop(const EventLoop& el);
 
         /**
         * Destructor

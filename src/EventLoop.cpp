@@ -32,6 +32,13 @@ EventLoop::EventLoop()
 }
 
 /**
+* Private copy constructor
+*/
+EventLoop::EventLoop(const EventLoop& el)
+{
+}
+
+/**
 * Destructor
 */
 EventLoop::~EventLoop()
