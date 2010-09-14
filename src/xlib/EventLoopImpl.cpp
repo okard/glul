@@ -51,6 +51,7 @@ EventLoopImpl::~EventLoopImpl()
 bool EventLoopImpl::getEvent()
 {
     XNextEvent(display, &event);
+    return true;
 }
         
 /**
@@ -59,6 +60,7 @@ bool EventLoopImpl::getEvent()
 bool EventLoopImpl::peekEvent()
 {
     XPeekEvent(display, &event);
+    return true;
 }
 
 /**

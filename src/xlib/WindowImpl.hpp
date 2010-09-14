@@ -45,6 +45,15 @@ class WindowImpl : public Self<Window>
     private:
         ///Window
         ::Window window;
+        
+        ///Display
+        Display* display;
+        
+        ///Attributes
+        XSetWindowAttributes attributes;
+        
+        ///Attributes
+        XWindowAttributes  gwa;
   
     protected:
         /**
@@ -57,6 +66,16 @@ class WindowImpl : public Self<Window>
         * \brief show
         */
         void show();
+        
+        /**
+        * get window height
+        */
+        int getHeight();
+        
+        /**
+        * get window width
+        */
+        int getWidth();
     
         /**
         * get xlib Window

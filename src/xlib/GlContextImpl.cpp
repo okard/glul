@@ -30,6 +30,9 @@
 
 using namespace glul;
 
+/**
+* Constructor
+*/
 GlContextImpl::GlContextImpl()
 {
     Display* dis = EventLoopPtr->xlibDisplay();
@@ -47,23 +50,35 @@ GlContextImpl::GlContextImpl()
     context = glXCreateContext(dis, vi, NULL, GL_TRUE);
 }
 
+/**
+* Destructor
+*/
 GlContextImpl::~GlContextImpl()
 {
     glXDestroyContext(EventLoopPtr->xlibDisplay(), context);
 }
         
-
+/**
+* Make OpenGL Context current
+*/
 void GlContextImpl::makeCurrent(Window* win)
 {
     this->window = win;
     
     Display* dis = EventLoopPtr->xlibDisplay();
     
+    //set colormap?
+    //change depth?
+    //match visual
+    //set visual?
+    
     glXMakeCurrent(dis, window->xlibWindow(), context);
 }
 
-
+/**
+* Swap OpenGL Buffers
+*/
 void GlContextImpl::swap()
 {
-    
+    glXSwapBuffers(EventLoopPtr->xlibDisplay(), window->xlibWindow());
 }

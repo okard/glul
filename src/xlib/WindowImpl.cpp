@@ -29,19 +29,50 @@
 //namespace
 using namespace glul;
 
-
+/**
+* Initialize Window
+*/
 void WindowImpl::initialize(const char* title, int width, int height)
 {
-    Display* dis = glul::EventLoopPtr->xlibDisplay();
-    int screen = DefaultScreen(dis);
-    window = XCreateSimpleWindow(dis, RootWindow(dis, screen), 1, 1, 500, 500, 0, BlackPixel (dis, screen), BlackPixel(dis, screen));
+    display = glul::EventLoopPtr->xlibDisplay();
+    
+    int screen = DefaultScreen(display);
+    ::Window root = DefaultRootWindow(display);
+    
+    //set attributes
+    //attributes.colormap = cmap;
+    attributes.event_mask = ExposureMask | KeyPressMask;
+ 
+    window = XCreateWindow(display, root, 0, 0, width, height, 0, CopyFromParent, InputOutput, CopyFromParent, CWEventMask, &attributes);
 
-    XMapWindow(dis, window);
-    XFlush(dis);
+    XStoreName(display, window, title);
+    XMapWindow(display, window);
+    XFlush(display);
 }
   
+/**
+* Show Window
+*/
 void WindowImpl::show()
 {
+}
+
+/**
+* get window height
+*/
+int WindowImpl::getHeight()
+{
+    XGetWindowAttributes(display, window, &gwa);
+    return gwa.height;
+}
+        
+/**
+* get window width
+*/
+int WindowImpl::getWidth()
+{
+    XGetWindowAttributes(display, window, &gwa);
+    return gwa.width;
 }
 
 /**
@@ -52,7 +83,16 @@ void WindowImpl::show()
     return window;
 }
     
-    
+/**
+* Window Dispatch
+*/
 void WindowImpl::dispatch(XEvent& event)
 {
+    switch(event.type)
+    {
+        case Expose:
+            break;
+        case KeyPress:
+            break;
+    }
 }

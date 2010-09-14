@@ -52,13 +52,25 @@ class GlContextImpl : public Self<GlContext>
         /// visual info
         XVisualInfo             *vi;
 
-       
-        
     public:
+        /**
+        * Constructor
+        */
         GlContextImpl();
+        
+        /**
+        * Destructor
+        */
         ~GlContextImpl();
         
+        /**
+        * make GlContext current
+        */
         void makeCurrent(Window* win);
+        
+        /**
+        * swap buffers
+        */
         void swap();
 };
 
