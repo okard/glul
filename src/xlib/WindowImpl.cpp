@@ -39,6 +39,14 @@ void WindowImpl::initialize(const char* title, int width, int height)
 void WindowImpl::show()
 {
 }
+
+/**
+* get xlib Window
+*/
+::Window WindowImpl::xlibWindow()
+{
+    return window;
+}
     
     
 void WindowImpl::dispatch(XEvent& event)

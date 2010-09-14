@@ -54,6 +54,11 @@ class WindowImpl : public Self<Window>
         void show();
     
         /**
+        * get xlib Window
+        */
+        ::Window xlibWindow();
+        
+        /**
         * \brief dispatch
         */
         static void dispatch(XEvent& event);

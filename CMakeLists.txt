@@ -13,8 +13,9 @@ IF(WIN32)
   set(GLUL_PLATFORM_SRC src/win32/EventLoopImpl.cpp)
 ELSE()
   set(GLUL_PLATFORM_SRC src/xlib/EventLoopImpl.cpp
-                        src/xlib/WindowImpl.cpp)
-  set(GLUL_PLATFORM_LIBS "X11")
+                        src/xlib/WindowImpl.cpp
+                        src/xlib/GlContextImpl.cpp)
+  set(GLUL_PLATFORM_LIBS "X11" "GL" "GLU")
 ENDIF()
 
 # Library
@@ -29,3 +30,7 @@ TARGET_LINK_LIBRARIES(glul ${GLUL_PLATFORM_LIBS})
 # Simple test app
 ADD_EXECUTABLE(simple_test tests/simple_test.cpp)
 TARGET_LINK_LIBRARIES(simple_test glul)
+
+# Simple test app
+ADD_EXECUTABLE(simple_gl_test tests/simple_gl_test.cpp)
+TARGET_LINK_LIBRARIES(simple_gl_test glul)
