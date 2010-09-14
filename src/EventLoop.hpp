@@ -36,7 +36,9 @@ namespace glul {
 */
 class EventLoop : public EventLoopImpl
 { 
-  
+    //friend class to access private member
+    friend class EventLoopImpl;
+    
     private:
         /// Event Loop Singleton
         static EventLoop* instance;
@@ -50,6 +52,13 @@ class EventLoop : public EventLoopImpl
         * Destructor
         */
         ~EventLoop();
+        
+    protected:
+        /// the result of event loop
+        int result;
+        
+        /// event loop is currently running
+        bool running;
     
     public:  
         

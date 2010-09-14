@@ -24,52 +24,59 @@
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 
-//Base Include
-#include "base/EventLoopBase.hpp"
+#include "Self.hpp"
+
+namespace glul {
+    
+class EventLoop;
 
 /**
 * XLIB Event Loop Impl
 */
-class EventLoopImpl : public EventLoopBase
+class EventLoopImpl : public Self<EventLoop>
 {
-  private:
-    ///Display
-    Display *display;
+    using Self<EventLoop>::self;
     
-    ///Event
-    XEvent event;
+    private:
+        ///Display
+        Display *display;
     
-  public:
-    /**
-    * Constructor
-    */
-    EventLoopImpl();
+        ///Event
+        XEvent event;
     
-    /**
-    * Destructor
-    */
-    ~EventLoopImpl();
-    
-    /**
-    * \brief get a new event
-    */
-    bool getEvent();
+    public:
+        /**
+        * Constructor
+        */
+        EventLoopImpl();
         
-    /**
-    * \brief peek a new event
-    */
-    bool peekEvent();
+        /**
+        * Destructor
+        */
+        ~EventLoopImpl();
+        
+        /**
+        * \brief get a new event
+        */
+        bool getEvent();
+            
+        /**
+        * \brief peek a new event
+        */
+        bool peekEvent();
 
-    /**
-    * \brief dispatch events
-    */
-    bool dispatch();
-    
-    /**
-    * \brief get xlib display
-    */
-    Display* xlibDisplay();
+        /**
+        * \brief dispatch events
+        */
+        bool dispatch();
+        
+        /**
+        * \brief get xlib display
+        */
+        Display* xlibDisplay();
     
 };
+
+}//end namespace glul
 
 #endif /* __EVENTLOOPIMPL_H__ */

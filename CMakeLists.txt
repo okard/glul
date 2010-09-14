@@ -20,7 +20,6 @@ ENDIF()
 # Library
 ADD_LIBRARY(glul 
             ${GLUL_PLATFORM_SRC}
-            src/base/EventLoopBase.cpp
             src/EventLoop.cpp
             src/base/WindowBase.cpp
             src/Window.cpp)

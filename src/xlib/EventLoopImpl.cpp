@@ -19,7 +19,11 @@
 
 #include "EventLoopImpl.hpp"
 
+#include <glul/EventLoop>
 #include <glul/Window>
+
+using namespace glul;
+
 
 /**
 * Constructor
@@ -58,7 +62,7 @@ bool EventLoopImpl::peekEvent()
 */
 bool EventLoopImpl::dispatch()
 {
-    glul::Window::dispatch(event);
+    Window::dispatch(event);
     
     return true;
 }
