@@ -37,16 +37,19 @@ namespace glul
 */
 class Window : public WindowImpl
 {
-  private:
+    //friend to allow private access
+    friend class WindowImpl;
     
-  public:
-    Window();
-    Window(const char* title, int width, int height);
-    ~Window();
+    private:
+    
+        
+    public:
+        Window();
+        Window(const char* title, int width, int height);
+        ~Window();
     
 };
 
-}; //end namespace glul
-
+} //end namespace glul
 
 #endif /* __WINDOW_H__ */

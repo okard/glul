@@ -20,8 +20,9 @@
 #include "Window.hpp"
 
 
-namespace glul
-{
+//required because stupidity of xlib naming Window
+namespace glul {
+
 
 Window::Window()
 {

@@ -21,7 +21,6 @@ ENDIF()
 ADD_LIBRARY(glul 
             ${GLUL_PLATFORM_SRC}
             src/EventLoop.cpp
-            src/base/WindowBase.cpp
             src/Window.cpp)
 
 TARGET_LINK_LIBRARIES(glul ${GLUL_PLATFORM_LIBS})

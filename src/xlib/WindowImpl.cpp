@@ -19,9 +19,11 @@
 
 #include "WindowImpl.hpp"
 
-
-
 #include <glul/EventLoop>
+#include <glul/Window>
+
+//namespace
+using namespace glul;
 
 
 void WindowImpl::initialize(const char* title, int width, int height)

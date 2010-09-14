@@ -20,37 +20,45 @@
 #ifndef __WINDOWIMPL_H__
 #define __WINDOWIMPL_H__
 
-#include "base/WindowBase.hpp"
-
-
 #include <X11/Xlib.h>
 
+#include <glul/Self>
+
+namespace glul {
+
+//forward declaration
+class Window;
 
 /**
 * \brief XLIB Window Implementation
 */
-class WindowImpl : public WindowBase
+class WindowImpl : public Self<Window>
 {
-  private:
-      ///Window
-      ::Window window;
-  
-  protected:
-      /**
-      * \brief initialize
-      */
-      void initialize(const char* title, int width, int height);
-  
-  public:
-      /**
-      * \brief show
-      */
-      void show();
+    //reference to child
+    using Self<Window>::self;
     
-      /**
-      * \brief dispatch
-      */
-      static void dispatch(XEvent& event);
+    private:
+        ///Window
+        ::Window window;
+  
+    protected:
+        /**
+        * \brief initialize
+        */
+        void initialize(const char* title, int width, int height);
+  
+    public:
+        /**
+        * \brief show
+        */
+        void show();
+    
+        /**
+        * \brief dispatch
+        */
+        static void dispatch(XEvent& event);
 };
+
+} //end namespace glul
 
 #endif /* __WINDOWIMPL_H__ */

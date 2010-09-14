@@ -62,7 +62,7 @@ bool EventLoopImpl::peekEvent()
 */
 bool EventLoopImpl::dispatch()
 {
-    Window::dispatch(event);
+    glul::Window::dispatch(event);
     
     return true;
 }
