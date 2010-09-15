@@ -33,6 +33,7 @@ using namespace glul;
 */
 void WindowImpl::initialize(const char* title, int width, int height)
 {
+    //Create Window
     hwnd = CreateWindowEx(
         WS_EX_CLIENTEDGE,
         WindowClass::getSingleton().getClassName(),
@@ -40,7 +41,11 @@ void WindowImpl::initialize(const char* title, int width, int height)
         WS_OVERLAPPEDWINDOW,
         CW_USEDEFAULT, CW_USEDEFAULT, width, height,
         NULL, NULL, EventLoopPtr->winInstance(), NULL);
+        
+    //set user defined pointer to top level window class
+    SetWindowLongPtr(hwnd, GWL_USERDATA, (LONG_PTR)&self);
 
+    //Show Window
     ShowWindow(hwnd, SW_SHOW);
     UpdateWindow(hwnd);
 }
@@ -81,11 +86,24 @@ HWND WindowImpl::winWindow()
 */
 LRESULT CALLBACK WindowImpl::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+    //Cast back user defined pointer to window class
+    Window* window = (Window*)GetWindowLongPtr(hwnd, GWL_USERDATA);
+
+    //dispatch events
     switch(msg)
     {
+        case WM_PAINT:
+            window->OnPaint();
+        break;
+        
+        case WM_SIZE:
+            window->OnResize();
+        break;
+
         case WM_CLOSE:
             DestroyWindow(hwnd);
         break;
+        
         case WM_DESTROY:
             PostQuitMessage(0);
         break;
