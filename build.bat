@@ -9,7 +9,7 @@ REM go into build
 cd build
 
 REM build library
-cmake -G "MinGW Makefiles" ..
+cmake -DCMAKE_BUILD_TYPE=Debug -G "MinGW Makefiles" ..
 mingw32-make
 
 REM step back

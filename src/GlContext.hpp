@@ -28,7 +28,7 @@
 * Include Platform Implementation
 */
 #ifdef WIN32
-  #include "win32/GlContextImpl.hpp"
+  #include "win/GlContextImpl.hpp"
 #else
   #include "xlib/GlContextImpl.hpp"
 #endif
