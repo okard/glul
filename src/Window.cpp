@@ -27,37 +27,43 @@
 //required because stupidity of xlib naming Window
 namespace glul {
 
-
+/**
+* Constructor
+*/
 Window::Window()
-    : eventHandler(0)
 {
   this-> initialize("GLUL", 800, 600);
 }
 
+/**
+* Constructor
+*/
 Window::Window(const char* title, int width, int height)
-    : eventHandler(0)
 {
   this-> initialize(title, width, height);
 }
 
+/**
+* Destructor
+*/
 Window::~Window()
 {
 }
 
 /**
-* set event handler
+* Paint Event
 */
-void Window::setEventHandler(WindowEventHandler* handler)
+void Window::OnPaint()
 {
-    eventHandler = handler;
 }
         
 /**
-* get event handler
+* Resize Event
 */
-WindowEventHandler* Window::getEventHandler()
+void Window::OnResize()
 {
-    return eventHandler;
 }
+
+
 
 }
