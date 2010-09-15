@@ -28,7 +28,7 @@
 * Include Platform Implementation
 */
 #ifdef WIN32
-  #include "win32/WindowImpl.hpp"
+  #include "win/WindowImpl.hpp"
 #else
   #include "xlib/WindowImpl.hpp"
 #endif

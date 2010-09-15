@@ -21,72 +21,76 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
     THE SOFTWARE.
 */
-#ifndef __WINDOWIMPL_H__
-#define __WINDOWIMPL_H__
+#include "WindowImpl.hpp"
+#include "WindowClass.hpp"
 
-#include <X11/Xlib.h>
+#include <glul/EventLoop>
 
-#include <glul/Self>
-
-namespace glul {
-
-//forward declaration
-class Window;
+using namespace glul;
 
 /**
-* \brief XLIB Window Implementation
+* \brief initialize
 */
-class WindowImpl : public Self<Window>
+void WindowImpl::initialize(const char* title, int width, int height)
 {
-    //reference to child
-    using Self<Window>::self;
-    
-    private:
-        ///Window
-        ::Window window;
-        
-        ///Display
-        Display* display;
-        
-        ///Attributes
-        XSetWindowAttributes attributes;
-        
-        ///Attributes
-        XWindowAttributes  gwa;
-  
-    protected:
-        /**
-        * \brief initialize
-        */
-        void initialize(const char* title, int width, int height);
-  
-    public:
-        /**
-        * \brief show
-        */
-        void show();
-        
-        /**
-        * get window height
-        */
-        int getHeight();
-        
-        /**
-        * get window width
-        */
-        int getWidth();
-    
-        /**
-        * get xlib Window
-        */
-        ::Window xlibWindow();
-        
-        /**
-        * \brief dispatch
-        */
-        static void dispatch(XEvent& event);
-};
+    hwnd = CreateWindowEx(
+        WS_EX_CLIENTEDGE,
+        WindowClass::getSingleton().getClassName(),
+        title,
+        WS_OVERLAPPEDWINDOW,
+        CW_USEDEFAULT, CW_USEDEFAULT, width, height,
+        NULL, NULL, EventLoopPtr->winInstance(), NULL);
 
-} //end namespace glul
-
-#endif /* __WINDOWIMPL_H__ */
+    ShowWindow(hwnd, SW_SHOW);
+    UpdateWindow(hwnd);
+}
+  
+/**
+* \brief show
+*/
+void WindowImpl::show()
+{
+    ShowWindow(hwnd, SW_SHOW);
+}
+        
+/**
+* get window height
+*/
+int WindowImpl::getHeight()
+{
+    
+}
+     
+/**
+* get window width
+*/
+int WindowImpl::getWidth()
+{
+}
+   
+/**
+* get xlib Window
+*/
+HWND WindowImpl::winWindow()
+{
+      return hwnd;
+}
+        
+/**
+* \brief WndProc        
+*/
+LRESULT CALLBACK WindowImpl::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+    switch(msg)
+    {
+        case WM_CLOSE:
+            DestroyWindow(hwnd);
+        break;
+        case WM_DESTROY:
+            PostQuitMessage(0);
+        break;
+        default:
+            return DefWindowProc(hwnd, msg, wParam, lParam);
+    }
+    return 0;
+}

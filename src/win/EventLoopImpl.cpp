@@ -21,31 +21,59 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
     THE SOFTWARE.
 */
-#ifndef __SELF_HPP__
-#define __SELF_HPP__
+#include "EventLoopImpl.hpp"
 
-namespace glul {
+#include <glul/EventLoop>
+
+using namespace glul;
 
 /**
-* Utility class to get reference to child classes
-* ATTENTION: Use this only when you know what you doing
+* Constructor
 */
-template<class T>
-class Self
+EventLoopImpl::EventLoopImpl()
 {
-    protected:
-        ///Reference to child class
-        T& self;
-    public:
-        /**
-        * Constructor
-        */
-        Self()
-        : self(*static_cast<T*>(this))
-        {
-        }
-};
+    hInstance = GetModuleHandleW(NULL);
+}
+    
+/**
+* Destructor
+*/
+EventLoopImpl::~EventLoopImpl()
+{
+}
+    
+/**
+* \brief get a new event
+*/
+bool EventLoopImpl::getEvent()
+{
+    return self.running && (GetMessage(&Msg, NULL, 0, 0) > 0);
+}
+        
+/**
+* \brief peek a new event
+*/
+bool EventLoopImpl::peekEvent()
+{
+    return self.running && (PeekMessage(&Msg, NULL, 0, 0, PM_REMOVE) > 0);
+}
 
-} //end namespace cul
+/**
+* \brief dispatch events
+*/
+bool EventLoopImpl::dispatch()
+{
+    TranslateMessage(&Msg);
+    DispatchMessage(&Msg);
+    
+    self.result = Msg.wParam;
+    return true;
+}
 
-#endif /* __SELF_HPP__ */
+/**
+* \brief get windows instance
+*/
+HINSTANCE EventLoopImpl::winInstance()
+{
+    return hInstance;
+}

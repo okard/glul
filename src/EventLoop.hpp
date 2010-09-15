@@ -28,7 +28,7 @@
 * Include Platform Implementation
 */
 #ifdef WIN32
-  #include "win32/EventLoopImpl.hpp"
+  #include "win/EventLoopImpl.hpp"
 #else
   #include "xlib/EventLoopImpl.hpp"
 #endif

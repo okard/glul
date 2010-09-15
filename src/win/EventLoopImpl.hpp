@@ -21,31 +21,64 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
     THE SOFTWARE.
 */
-#ifndef __SELF_HPP__
-#define __SELF_HPP__
+#ifndef __EVENTLOOPIMPL_H__
+#define __EVENTLOOPIMPL_H__
+
+#include <windows.h>
+
+#include "Self.hpp"
 
 namespace glul {
+    
+class EventLoop;
 
 /**
-* Utility class to get reference to child classes
-* ATTENTION: Use this only when you know what you doing
+* XLIB Event Loop Impl
 */
-template<class T>
-class Self
+class EventLoopImpl : public Self<EventLoop>
 {
-    protected:
-        ///Reference to child class
-        T& self;
+    using Self<EventLoop>::self;
+    
+    private:
+        /// Instance
+        HINSTANCE hInstance;
+        
+        /// Event Message
+        MSG Msg;
+    
     public:
         /**
         * Constructor
         */
-        Self()
-        : self(*static_cast<T*>(this))
-        {
-        }
+        EventLoopImpl();
+        
+        /**
+        * Destructor
+        */
+        ~EventLoopImpl();
+        
+        /**
+        * \brief get a new event
+        */
+        bool getEvent();
+            
+        /**
+        * \brief peek a new event
+        */
+        bool peekEvent();
+
+        /**
+        * \brief dispatch events
+        */
+        bool dispatch();
+        
+        /**
+        * \brief get windows instance
+        */
+        HINSTANCE winInstance();
 };
 
-} //end namespace cul
+}//end namespace glul
 
-#endif /* __SELF_HPP__ */
+
+#endif

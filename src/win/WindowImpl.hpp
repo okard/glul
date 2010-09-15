@@ -21,31 +21,62 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
     THE SOFTWARE.
 */
-#ifndef __SELF_HPP__
-#define __SELF_HPP__
+#ifndef __WINDOWIMPL_H__
+#define __WINDOWIMPL_H__
+
+#include <windows.h>
+
+#include <glul/Self>
 
 namespace glul {
 
+//forward declaration
+class Window;
+
 /**
-* Utility class to get reference to child classes
-* ATTENTION: Use this only when you know what you doing
+* \brief Windows Window Implementation
 */
-template<class T>
-class Self
+class WindowImpl : public Self<Window>
 {
+    //reference to child
+    using Self<Window>::self;
+    
+    private:
+        HWND hwnd;
+
     protected:
-        ///Reference to child class
-        T& self;
+        /**
+        * \brief initialize
+        */
+        void initialize(const char* title, int width, int height);
+  
     public:
         /**
-        * Constructor
+        * \brief show
         */
-        Self()
-        : self(*static_cast<T*>(this))
-        {
-        }
+        void show();
+        
+        /**
+        * get window height
+        */
+        int getHeight();
+        
+        /**
+        * get window width
+        */
+        int getWidth();
+    
+        /**
+        * get xlib Window
+        */
+        HWND winWindow();
+        
+        /**
+        * \brief WndProc        
+        */
+        static LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 };
 
-} //end namespace cul
+} //end namespace glul
 
-#endif /* __SELF_HPP__ */
+#endif /* __WINDOWIMPL_H__ */
