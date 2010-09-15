@@ -11,7 +11,8 @@ INCLUDE_DIRECTORIES(include)
 # Include Platform specific files to build
 IF(WIN32)
   set(GLUL_PLATFORM_SRC src/win/EventLoopImpl.cpp
-                        src/win/WindowImpl.cpp)
+                        src/win/WindowImpl.cpp
+                        src/win/GlContextImpl.cpp)
 ELSE()
   set(GLUL_PLATFORM_SRC src/xlib/EventLoopImpl.cpp
                         src/xlib/WindowImpl.cpp
