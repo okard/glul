@@ -110,7 +110,7 @@ class EventLoop : public EventLoopImpl
 /**
 * Shortcut define to access event loop instance 
 */
-#define EventLoopPtr EventLoop::getSingletonPtr() 
+static EventLoop* const EventLoopPtr = EventLoop::getSingletonPtr();
 
 };
 
