@@ -20,9 +20,13 @@ ELSE()
   set(GLUL_PLATFORM_LIBS "X11" "GL" "GLU")
 ENDIF()
 
+#definitions
+ADD_DEFINITIONS(-DGLEW_STATIC) # GLEW_BUILD for dll/so
+
 # Library
 ADD_LIBRARY(glul 
             ${GLUL_PLATFORM_SRC}
+            src/glew/glew.c
             src/EventLoop.cpp
             src/Window.cpp)
 
