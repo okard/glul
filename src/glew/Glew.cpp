@@ -23,6 +23,8 @@
 */
 #include "Glew.hpp"
 
+#include <glul/Exception>
+
 using namespace glul;
 
 
@@ -56,7 +58,7 @@ void GlewHelper::init()
     GLenum err = glewInit();
         
     if (err != GLEW_OK)
-        throw (const char*)glewGetErrorString(err);
+        throw Exception((const char*)glewGetErrorString(err));
     else
         initialized = true;
 }

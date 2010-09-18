@@ -21,63 +21,41 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
     THE SOFTWARE.
 */
-#include "GlContextImpl.hpp"
+#ifndef __EXCEPTION_HPP__
+#define __EXCEPTION_HPP__
 
-#include <glul/EventLoop>
-#include <glul/Window>
-#include <glul/GlContext>
-#include <glul/Exception>
+#include <exception>
 
-using namespace glul;
+namespace glul {
 
 /**
-* Constructor
+* GLUL Exception
 */
-GlContextImpl::GlContextImpl(Window& win)
-    : window(win), display(EventLoop::getSingleton().xlibDisplay())
+class Exception : public std::exception
 {
-    //gl attributes
-    GLint att[] = { GLX_RGBA, GLX_DEPTH_SIZE, 24, GLX_DOUBLEBUFFER, None };
+    private:
+        /// exception msg
+        const char* msg;
     
-    //choose visual
-    vi = glXChooseVisual(display, 0, att);
-    
-    if(vi == NULL)
-        throw Exception("glXChooseVisual failes");
-    
-    //create opengl context
-    context = glXCreateContext(display, vi, NULL, GL_TRUE);
-    
-    if(context == NULL)
-        throw Exception("glXCreateContext failes");
-    
-    //set colormap?
-    //change depth?
-    //match visual
-    //set visual?
-    //implement context sharing
-}
-
-/**
-* Destructor
-*/
-GlContextImpl::~GlContextImpl()
-{
-    glXDestroyContext(display, context);
-}
+    public:
+        /**
+        * Constructor
+        */
+        Exception(const char* msg)
+            : msg(msg)
+        {
+        }
         
-/**
-* Make OpenGL Context current
-*/
-void GlContextImpl::makeCurrent()
-{
-    glXMakeCurrent(display, window.xlibWindow(), context);
-}
+        /**
+        * Description
+        */
+        virtual const char* what() const throw()
+        {
+            return msg;
+        }
+};
+        
+} //end namespace glul
 
-/**
-* Swap OpenGL Buffers
-*/
-void GlContextImpl::swap()
-{
-    glXSwapBuffers(display, window.xlibWindow());
-}
+
+#endif /* __EXCEPTION_HPP__ */
