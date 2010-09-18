@@ -27,7 +27,9 @@ ADD_DEFINITIONS(-DGLEW_STATIC) # GLEW_BUILD for dll/so
 ADD_LIBRARY(glul 
             ${GLUL_PLATFORM_SRC}
             src/glew/glew.c
+            src/glew/Glew.cpp
             src/EventLoop.cpp
+            src/GlWindow.cpp
             src/Window.cpp)
 
 TARGET_LINK_LIBRARIES(glul ${GLUL_PLATFORM_LIBS})
@@ -37,7 +39,7 @@ TARGET_LINK_LIBRARIES(glul ${GLUL_PLATFORM_LIBS})
 ADD_EXECUTABLE(simple_test tests/simple_test.cpp)
 TARGET_LINK_LIBRARIES(simple_test glul)
 
-# Simple test app
+# Simple gl test app
 ADD_EXECUTABLE(simple_gl_test tests/simple_gl_test.cpp)
 TARGET_LINK_LIBRARIES(simple_gl_test glul)
 

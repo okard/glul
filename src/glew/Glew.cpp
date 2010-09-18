@@ -21,48 +21,51 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
     THE SOFTWARE.
 */
-#ifndef __GLEW_HPP__
-#define __GLEW_HPP__
+#include "Glew.hpp"
 
-#include "glew.h"
-#include <cstdio>
+using namespace glul;
 
-namespace glul {
+
+///private constructor because of singleton
+GlewHelper::GlewHelper() 
+    : initialized(false) 
+{
+}
+    
+///private copy constructor because of singleton
+GlewHelper::GlewHelper(const GlewHelper& g)
+{
+}
 
 /**
-* Glew Helper
+* Is glew ready?
 */
-class GlewHelper
+bool GlewHelper::ready()
 {
-private:
-    ///private constructor because of singleton
-    GlewHelper();
+    return initialized;
+}
     
-    ///private copy constructor because of singleton
-    GlewHelper(const GlewHelper& g);
+/**
+* try to init
+*/
+void GlewHelper::init()
+{
+    if(initialized)
+        return;
+        
+    GLenum err = glewInit();
+        
+    if (err != GLEW_OK)
+        throw (const char*)glewGetErrorString(err);
+    else
+        initialized = true;
+}
     
-    ///is glew initialized
-    bool initialized;
-public:  
-    /**
-    * Is glew ready?
-    */
-    bool ready();
-    
-    /**
-    * try to init
-    */
-    void init();
-    
-    /**
-    * get singleton
-    */
-    static GlewHelper& getSingleton();
-};
-
-///definition for faster glew helper access
-static GlewHelper& Glew = GlewHelper::getSingleton();
-
-} //end namespace glul
-
-#endif /* __GLEW_HPP__ */
+/**
+* get singleton
+*/
+GlewHelper& GlewHelper::getSingleton()
+{
+    static GlewHelper gh;
+    return gh;
+}

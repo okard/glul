@@ -21,48 +21,50 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
     THE SOFTWARE.
 */
-#ifndef __GLEW_HPP__
-#define __GLEW_HPP__
+#include "GlWindow.hpp"
 
-#include "glew.h"
-#include <cstdio>
+using namespace glul;
 
-namespace glul {
 
 /**
-* Glew Helper
+* Constructor
 */
-class GlewHelper
+GlWindow::GlWindow(const char* title, int width, int height)
+    : Window(title, width, height)
 {
-private:
-    ///private constructor because of singleton
-    GlewHelper();
-    
-    ///private copy constructor because of singleton
-    GlewHelper(const GlewHelper& g);
-    
-    ///is glew initialized
-    bool initialized;
-public:  
-    /**
-    * Is glew ready?
-    */
-    bool ready();
-    
-    /**
-    * try to init
-    */
-    void init();
-    
-    /**
-    * get singleton
-    */
-    static GlewHelper& getSingleton();
-};
+}
+        
+/**
+* Destructor
+*/
+GlWindow::~GlWindow()
+{
+}
 
-///definition for faster glew helper access
-static GlewHelper& Glew = GlewHelper::getSingleton();
-
-} //end namespace glul
-
-#endif /* __GLEW_HPP__ */
+/**
+* OpenGL Initialize
+*/
+void GlWindow::OnInitialize()
+{
+}
+        
+/**
+* OpenGL Render Function
+*/
+void GlWindow::OnRender()
+{
+}
+        
+/**
+* Paint Event
+*/
+void GlWindow::OnPaint()
+{
+}
+     
+/**
+* Resize Event
+*/
+void GlWindow::OnResize()
+{
+}

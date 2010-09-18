@@ -21,48 +21,56 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
     THE SOFTWARE.
 */
-#ifndef __GLEW_HPP__
-#define __GLEW_HPP__
+#ifndef __GLWINDOW_HPP__
+#define __GLWINDOW_HPP__
 
-#include "glew.h"
-#include <cstdio>
+#include <glul/Window>
+#include <glul/GlContext>
 
 namespace glul {
 
 /**
-* Glew Helper
+* A basis OpenGL Window
 */
-class GlewHelper
+class GlWindow : Window
 {
-private:
-    ///private constructor because of singleton
-    GlewHelper();
+    private:
+        ///OpenGL Context
+        GlContext glContext;
     
-    ///private copy constructor because of singleton
-    GlewHelper(const GlewHelper& g);
-    
-    ///is glew initialized
-    bool initialized;
-public:  
-    /**
-    * Is glew ready?
-    */
-    bool ready();
-    
-    /**
-    * try to init
-    */
-    void init();
-    
-    /**
-    * get singleton
-    */
-    static GlewHelper& getSingleton();
+    public:
+        /**
+        * Constructor
+        */
+        GlWindow(const char* title, int width, int height);
+        
+        /**
+        * Destructor
+        */
+        ~GlWindow();
+        
+        /**
+        * OpenGL Initialize
+        */
+        virtual void OnInitialize();
+        
+        /**
+        * OpenGL Render Function
+        */
+        virtual void OnRender();
+        
+         /**
+        * Paint Event
+        */
+        virtual void OnPaint();
+        
+        /**
+        * Resize Event
+        */
+        virtual void OnResize();
 };
-
-///definition for faster glew helper access
-static GlewHelper& Glew = GlewHelper::getSingleton();
 
 } //end namespace glul
 
-#endif /* __GLEW_HPP__ */
+
+#endif /* __GLWINDOW_HPP__ */

@@ -23,11 +23,15 @@
 */
 #include "WindowImpl.hpp"
 
+#include <map>
+
 #include <glul/EventLoop>
 #include <glul/Window>
 
 //namespace
 using namespace glul;
+
+std::map< ::Window, glul::Window*> xlib_window_map;
 
 /**
 * Initialize Window
@@ -45,6 +49,9 @@ void WindowImpl::initialize(const char* title, int width, int height)
  
     window = XCreateWindow(display, root, 0, 0, width, height, 0, CopyFromParent, InputOutput, CopyFromParent, CWEventMask, &attributes);
 
+    //save mapping
+    xlib_window_map[window] = &self;
+    
     XStoreName(display, window, title);
     XMapWindow(display, window);
     XFlush(display);
