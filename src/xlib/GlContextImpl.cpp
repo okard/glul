@@ -34,7 +34,7 @@ using namespace glul;
 * Constructor
 */
 GlContextImpl::GlContextImpl(Window& win)
-    : window(win), display(EventLoopPtr->xlibDisplay())
+    : window(win), display(EventLoop::getSingleton().xlibDisplay())
 {
     //gl attributes
     GLint att[] = { GLX_RGBA, GLX_DEPTH_SIZE, 24, GLX_DOUBLEBUFFER, None };
