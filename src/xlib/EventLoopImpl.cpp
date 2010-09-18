@@ -25,6 +25,7 @@
 
 #include <glul/EventLoop>
 #include <glul/Window>
+#include <glul/Exception>
 
 using namespace glul;
 
@@ -37,7 +38,7 @@ EventLoopImpl::EventLoopImpl()
     //Connect to X Server Display
     display = XOpenDisplay(NULL);
     if(display == NULL)
-        throw "failed to connect to xserver";
+        throw Exception("failed to connect to xserver");
 }
     
 /**
