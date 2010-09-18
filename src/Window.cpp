@@ -60,7 +60,7 @@ void Window::OnPaint()
 /**
 * Resize Event
 */
-void Window::OnResize()
+void Window::OnResize(int height, int width)
 {
 }
 

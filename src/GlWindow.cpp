@@ -37,7 +37,10 @@ GlWindow::GlWindow(const char* title, int width, int height)
     
     //init opengl
     OnInitialize();
-    OnResize();
+    OnResize(width, height);
+    
+    //initialize Glew
+    Glew.init();
 }
         
 /**
@@ -83,13 +86,13 @@ void GlWindow::OnPaint()
 /**
 * Resize Event
 */
-void GlWindow::OnResize()
+void GlWindow::OnResize(int width, int height)
 {
     // Reset the coordinate system before modifying
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 
     //set viewport
-    glViewport(0,0, getWidth(), getHeight());
+    glViewport(0,0, width, height);
     //set perspective
 }

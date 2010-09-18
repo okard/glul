@@ -104,7 +104,7 @@ void WindowImpl::dispatch(XEvent& event)
             win->OnPaint();
             break;
         case ConfigureNotify:
-            win->OnResize();
+            win->OnResize(event.xconfigure.width, event.xconfigure.height);
             break;
         case KeyPress:
             break;

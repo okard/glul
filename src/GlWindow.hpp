@@ -67,7 +67,7 @@ class GlWindow : public Window
         /**
         * Resize Event
         */
-        virtual void OnResize();
+        virtual void OnResize(int width, int height);
 };
 
 } //end namespace glul

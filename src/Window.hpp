@@ -70,7 +70,7 @@ class Window : public WindowImpl
         /**
         * Resize Event
         */
-        virtual void OnResize();
+        virtual void OnResize(int width, int height);
 };
 
 } //end namespace glul
