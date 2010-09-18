@@ -47,6 +47,12 @@ GlContextImpl::GlContextImpl(Window& win)
     
     //create opengl context
     context = glXCreateContext(display, vi, NULL, GL_TRUE);
+    
+    //set colormap?
+    //change depth?
+    //match visual
+    //set visual?
+    //implement context sharing
 }
 
 /**
@@ -62,12 +68,6 @@ GlContextImpl::~GlContextImpl()
 */
 void GlContextImpl::makeCurrent()
 {
-    
-    //set colormap?
-    //change depth?
-    //match visual
-    //set visual?
-    
     glXMakeCurrent(display, window.xlibWindow(), context);
 }
 

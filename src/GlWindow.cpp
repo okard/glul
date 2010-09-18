@@ -91,6 +91,5 @@ void GlWindow::OnResize()
 
     //set viewport
     glViewport(0,0, getWidth(), getHeight());
-    
-    
+    //set perspective
 }

@@ -46,7 +46,7 @@ void WindowImpl::initialize(const char* title, int width, int height)
     
     //set attributes
     //attributes.colormap = cmap;
-    attributes.event_mask = ExposureMask | KeyPressMask;
+    attributes.event_mask = StructureNotifyMask | SubstructureNotifyMask | ExposureMask | KeyPressMask ;
  
     window = XCreateWindow(display, root, 0, 0, width, height, 0, CopyFromParent, InputOutput, CopyFromParent, CWEventMask, &attributes);
 
@@ -103,7 +103,8 @@ void WindowImpl::dispatch(XEvent& event)
         case Expose:
             win->OnPaint();
             break;
-        case ResizeRequest:
+        case ConfigureNotify:
+            win->OnResize();
             break;
         case KeyPress:
             break;
