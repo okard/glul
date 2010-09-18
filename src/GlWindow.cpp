@@ -32,6 +32,12 @@ using namespace glul;
 GlWindow::GlWindow(const char* title, int width, int height)
     : Window(title, width, height), glContext(*this)
 {
+    //make context current
+    glContext.makeCurrent();
+    
+    //init opengl
+    OnInitialize();
+    OnResize();
 }
         
 /**
@@ -46,6 +52,7 @@ GlWindow::~GlWindow()
 */
 void GlWindow::OnInitialize()
 {
+    //set up OpenGL Configuration
 }
         
 /**
@@ -53,6 +60,15 @@ void GlWindow::OnInitialize()
 */
 void GlWindow::OnRender()
 {
+    // Clear The Screen And The Depth Buffer
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);      
+    glLoadIdentity();
+    
+    glBegin(GL_TRIANGLES);                      // Drawing Using Triangles
+        glVertex3f( 0.0f, 1.0f, 0.0f);              // Top
+        glVertex3f(-1.0f,-1.0f, 0.0f);              // Bottom Left
+        glVertex3f( 1.0f,-1.0f, 0.0f);              // Bottom Right
+    glEnd();
 }
         
 /**
@@ -60,6 +76,8 @@ void GlWindow::OnRender()
 */
 void GlWindow::OnPaint()
 {
+    OnRender();
+    glContext.swap();
 }
      
 /**
@@ -67,4 +85,12 @@ void GlWindow::OnPaint()
 */
 void GlWindow::OnResize()
 {
+    // Reset the coordinate system before modifying
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+
+    //set viewport
+    glViewport(0,0, getWidth(), getHeight());
+    
+    
 }
