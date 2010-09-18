@@ -36,6 +36,8 @@ EventLoopImpl::EventLoopImpl()
 {
     //Connect to X Server Display
     display = XOpenDisplay(NULL);
+    if(display == NULL)
+        throw "failed to connect to xserver";
 }
     
 /**

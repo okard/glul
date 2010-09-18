@@ -32,7 +32,7 @@ namespace glul {
 /**
 * A basis OpenGL Window
 */
-class GlWindow : Window
+class GlWindow : public Window
 {
     private:
         ///OpenGL Context

@@ -31,6 +31,7 @@
 //namespace
 using namespace glul;
 
+///map structure to dispatch window events
 std::map< ::Window, glul::Window*> xlib_window_map;
 
 /**
@@ -95,9 +96,14 @@ int WindowImpl::getWidth()
 */
 void WindowImpl::dispatch(XEvent& event)
 {
+    Window* win = xlib_window_map[event.xany.window];
+    
     switch(event.type)
     {
         case Expose:
+            win->OnPaint();
+            break;
+        case ResizeRequest:
             break;
         case KeyPress:
             break;

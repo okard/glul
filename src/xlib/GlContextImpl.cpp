@@ -33,21 +33,20 @@ using namespace glul;
 /**
 * Constructor
 */
-GlContextImpl::GlContextImpl()
+GlContextImpl::GlContextImpl(Window& win)
+    : window(win), display(EventLoopPtr->xlibDisplay())
 {
-    Display* dis = EventLoopPtr->xlibDisplay();
-    
     //gl attributes
     GLint att[] = { GLX_RGBA, GLX_DEPTH_SIZE, 24, GLX_DOUBLEBUFFER, None };
     
     //choose visual
-    vi = glXChooseVisual(dis, 0, att);
+    vi = glXChooseVisual(display, 0, att);
     
     if(vi == NULL)
         throw "glXChooseVisual failes";
     
     //create opengl context
-    context = glXCreateContext(dis, vi, NULL, GL_TRUE);
+    context = glXCreateContext(display, vi, NULL, GL_TRUE);
 }
 
 /**
@@ -55,24 +54,21 @@ GlContextImpl::GlContextImpl()
 */
 GlContextImpl::~GlContextImpl()
 {
-    glXDestroyContext(EventLoopPtr->xlibDisplay(), context);
+    glXDestroyContext(display, context);
 }
         
 /**
 * Make OpenGL Context current
 */
-void GlContextImpl::makeCurrent(Window* win)
+void GlContextImpl::makeCurrent()
 {
-    this->window = win;
-    
-    Display* dis = EventLoopPtr->xlibDisplay();
     
     //set colormap?
     //change depth?
     //match visual
     //set visual?
     
-    glXMakeCurrent(dis, window->xlibWindow(), context);
+    glXMakeCurrent(display, window.xlibWindow(), context);
 }
 
 /**
@@ -80,5 +76,5 @@ void GlContextImpl::makeCurrent(Window* win)
 */
 void GlContextImpl::swap()
 {
-    glXSwapBuffers(EventLoopPtr->xlibDisplay(), window->xlibWindow());
+    glXSwapBuffers(display, window.xlibWindow());
 }

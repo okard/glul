@@ -30,7 +30,7 @@ using namespace glul;
 * Constructor
 */
 GlWindow::GlWindow(const char* title, int width, int height)
-    : Window(title, width, height)
+    : Window(title, width, height), glContext(*this)
 {
 }
         

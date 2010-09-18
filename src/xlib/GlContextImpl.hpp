@@ -24,12 +24,13 @@
 #ifndef __GLCONTEXTIMPL_HPP__
 #define __GLCONTEXTIMPL_HPP__
 
+#include <glul/Self>
+#include <glul/Window>
+#include <glul/Glew>
+
 #include <GL/gl.h>
 #include <GL/glx.h>
 #include <GL/glu.h>
-
-#include <glul/Self>
-#include <glul/Window>
 
 namespace glul {
 
@@ -44,7 +45,10 @@ class GlContextImpl : public Self<GlContext>
     
     private:
         ///glul Window
-        Window* window;
+        Window& window;
+        
+        ///xlib display
+        Display* display;
         
         ///GLX OpenGL Context
         GLXContext context;
@@ -56,7 +60,7 @@ class GlContextImpl : public Self<GlContext>
         /**
         * Constructor
         */
-        GlContextImpl();
+        GlContextImpl(Window& win); 
         
         /**
         * Destructor
@@ -66,7 +70,7 @@ class GlContextImpl : public Self<GlContext>
         /**
         * make GlContext current
         */
-        void makeCurrent(Window* win);
+        void makeCurrent();
         
         /**
         * swap buffers

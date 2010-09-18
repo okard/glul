@@ -24,6 +24,8 @@
 #ifndef __GLCONTEXT_HPP__
 #define __GLCONTEXT_HPP__
 
+#include <glul/Window>
+
 /*
 * Include Platform Implementation
 */
@@ -44,6 +46,11 @@ class GlContext : public GlContextImpl
     friend class GlContextImpl;
     
     public:
+        GlContext(Window& win)
+            : GlContextImpl(win)
+        {
+        }
+        
         //MakeCurrent
         //Swap
 };

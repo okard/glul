@@ -23,22 +23,18 @@
 */
 
 #include <glul/EventLoop>
-#include <glul/Window>
+#include <glul/GlWindow>
 #include <glul/GlContext>
 
 using namespace glul;
 
-class glWindow : public glul::Window
+class glWindow : public glul::GlWindow
 {
-    private:
-        GlContext con;
-    
-    public:
-        glWindow()
+public:
+    glWindow()
+        : GlWindow("glul", 800, 600)
         {
-            con.makeCurrent(this);
         }
-    
 };
 
 
