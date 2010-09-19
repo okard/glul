@@ -35,6 +35,25 @@ using namespace glul;
 GlContextImpl::GlContextImpl(Window& win)
     : window(win)
 {
+    // get the device context (DC)
+    mhDC = GetDC( window.winWindow() );
+
+    //set the pixel format for the DC
+    PIXELFORMATDESCRIPTOR pfd;
+    ZeroMemory( &pfd, sizeof( pfd ) );
+    pfd.nSize = sizeof( pfd );
+    pfd.nVersion = 1;
+    pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL |
+                  PFD_DOUBLEBUFFER;
+    pfd.iPixelType = PFD_TYPE_RGBA;
+    pfd.cColorBits = 24;
+    pfd.cDepthBits = 16;
+    pfd.iLayerType = PFD_MAIN_PLANE;
+    int format = ChoosePixelFormat( mhDC, &pfd );
+    SetPixelFormat( mhDC, format, &pfd );
+
+    // create the render context (RC)
+    mhRC = wglCreateContext( mhDC );
 }
         
 /**
@@ -42,6 +61,8 @@ GlContextImpl::GlContextImpl(Window& win)
 */
 GlContextImpl::~GlContextImpl()
 {
+    wglDeleteContext( mhRC );
+    ReleaseDC( window.winWindow(), mhDC );
 }
         
 /**
@@ -49,6 +70,7 @@ GlContextImpl::~GlContextImpl()
 */
 void GlContextImpl::makeCurrent()
 {
+    wglMakeCurrent( mhDC, mhRC );
 }
         
 /**
@@ -56,4 +78,5 @@ void GlContextImpl::makeCurrent()
 */
 void GlContextImpl::swap()
 {
+    SwapBuffers(mhDC);	
 }

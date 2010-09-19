@@ -46,6 +46,8 @@ class GlContextImpl : public Self<GlContext>
     
     private:
         Window& window;
+        HDC mhDC;
+        HGLRC mhRC;
 
     public:
         /**
