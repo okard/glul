@@ -24,10 +24,12 @@ THE SOFTWARE.
 #ifndef __GLCONTEXTIMPL_HPP__
 #define __GLCONTEXTIMPL_HPP__
 
+//GLUL Includes
 #include <glul/Self>
-#include <glul/Glew>
 #include <glul/Window>
+#include <glul/Glew>
 
+//OpenGL Includes
 #include <gl/gl.h>
 #include <gl/glu.h>
 

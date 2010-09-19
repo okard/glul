@@ -24,9 +24,7 @@ THE SOFTWARE.
 #include "GlContextImpl.hpp"
 //Windows Implementation
 
-#include <glul/Glew>
 #include <glul/EventLoop>
-#include <glul/Window>
 #include <glul/GlContext>
 
 using namespace glul;
