@@ -97,7 +97,7 @@ LRESULT CALLBACK WindowImpl::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
         break;
         
         case WM_SIZE:
-            window->OnResize();
+            window->OnResize(LOWORD(lParam), HIWORD(lParam));
         break;
 
         case WM_CLOSE:

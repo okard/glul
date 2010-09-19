@@ -25,7 +25,11 @@ THE SOFTWARE.
 #define __GLCONTEXTIMPL_HPP__
 
 #include <glul/Self>
+#include <glul/Glew>
 #include <glul/Window>
+
+#include <gl/gl.h>
+#include <gl/glu.h>
 
 namespace glul {
 
@@ -39,12 +43,13 @@ class GlContextImpl : public Self<GlContext>
     using Self<GlContext>::self;
     
     private:
+        Window& window;
 
     public:
         /**
         * Constructor
         */
-        GlContextImpl();
+        GlContextImpl(Window& win);
         
         /**
         * Destructor
@@ -54,7 +59,7 @@ class GlContextImpl : public Self<GlContext>
         /**
         * make GlContext current
         */
-        void makeCurrent(Window* win);
+        void makeCurrent();
         
         /**
         * swap buffers
