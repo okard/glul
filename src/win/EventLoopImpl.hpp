@@ -26,7 +26,7 @@
 
 #include <windows.h>
 
-#include "Self.hpp"
+#include "../Self.hpp"
 
 namespace glul {
     
