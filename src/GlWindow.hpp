@@ -68,6 +68,11 @@ class GlWindow : public Window
         * Resize Event
         */
         virtual void OnResize(int width, int height);
+        
+        /**
+        * get Gl Context
+        */
+        GlContext& getContext();
 };
 
 } //end namespace glul
