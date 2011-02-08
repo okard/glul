@@ -25,7 +25,7 @@ ENDIF()
 ADD_DEFINITIONS(-DGLEW_STATIC) # GLEW_BUILD for dll/so
 
 # Library
-ADD_LIBRARY(glul 
+ADD_LIBRARY(glul SHARED
             ${GLUL_PLATFORM_SRC}
             src/glew/glew.c
             src/glew/Glew.cpp
@@ -35,15 +35,7 @@ ADD_LIBRARY(glul
 
 TARGET_LINK_LIBRARIES(glul ${GLUL_PLATFORM_LIBS})
 
-
-# Simple test app
-ADD_EXECUTABLE(simple_test tests/simple_test.cpp)
-TARGET_LINK_LIBRARIES(simple_test glul)
-
-# Simple gl test app
-ADD_EXECUTABLE(simple_gl_test tests/simple_gl_test.cpp)
-TARGET_LINK_LIBRARIES(simple_gl_test glul)
-
-# Simple glew test app
-ADD_EXECUTABLE(glew_test tests/glew_test.cpp)
-TARGET_LINK_LIBRARIES(glew_test glul)
+IF(DEFINED GLULTESTS)
+  ENABLE_TESTING()
+  SUBDIRS(tests)
+ENDIF(DEFINED GLULTESTS)
