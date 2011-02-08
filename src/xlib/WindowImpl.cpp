@@ -115,19 +115,18 @@ void WindowImpl::dispatch(XEvent& event)
             win->OnResize(event.xconfigure.width, event.xconfigure.height);
             break;
         case KeyPress:
-	    win->OnKeyDown(keyboard);
+            win->OnKeyDown(keyboard);
             break;
-	case KeyRelease:
-	    win->OnKeyUp(keyboard);
-	    break;
-	case ClientMessage:
-	    if(event.xclient.data.l[0] == win->wmDeleteMessage)
-	    {
-		//window get deleted?
-		//must now kill window automatically
-		XUnmapWindow(win->display, win->window);
-		XDestroyWindow(win->display, win->window);
-	    }
-	    break;
+        case KeyRelease:
+            win->OnKeyUp(keyboard);
+            break;
+        case ClientMessage:
+        if(event.xclient.data.l[0] == win->wmDeleteMessage)
+        {
+            //Kill Window
+            XUnmapWindow(win->display, win->window);
+            XDestroyWindow(win->display, win->window);   
+        }
+        break;
     }
 }

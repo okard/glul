@@ -32,7 +32,9 @@ namespace glul {
 class Keyboard
 {
 public:
-    //key enum
+    /**
+    * Available Keyboard Keys
+    */
     enum Key 
     {
         //Alpha
@@ -50,25 +52,54 @@ public:
     };
     
 private:
-    //internal keymap
+    /// Internal Keymap
     bool keymap[NOKEY_MAX];
     
 public:
     
-    //Copy Constructor
+    //TODO Copy Constructor
     
-    bool isKeyDown(Key k) { return keymap[k]; }
-
+    /**
+    * Is a specific Keydown
+    */
+    bool isKeyDown(Key k) const { return keymap[k]; }
+    /**
+    * Set a key down
+    */
     void setKeyDown(Key k) { keymap[k] = true; }
+    /**
+    * Set a key up
+    */
     void setKeyUp(Key k) { keymap[k] = false; }
+    /**
+    * Toggle a key
+    */
     void toggleKey(Key k) { keymap[k] = !keymap[k]; }
     
-    bool ShiftL() { return keymap[KEY_SHIFT_L]; }
-    bool ShiftR() { return keymap[KEY_SHIFT_R]; }
-    bool ControlR() { return keymap[KEY_CTRL_R]; }
-    bool ControlL() { return keymap[KEY_CTRL_L]; }
-    bool AltL() { return keymap[KEY_ALT_L]; }
-    bool AltR() { return keymap[KEY_ALT_R]; }
+    /**
+    * Is left shift key down
+    */
+    bool ShiftL() const { return keymap[KEY_SHIFT_L]; }
+    /**
+    * Is right shift key down
+    */
+    bool ShiftR() const { return keymap[KEY_SHIFT_R]; }
+    /**
+    * Is right control key down
+    */
+    bool ControlR() const { return keymap[KEY_CTRL_R]; }
+    /**
+    * Is left control key down
+    */
+    bool ControlL() const { return keymap[KEY_CTRL_L]; }
+    /**
+    * Is left alt key down
+    */
+    bool AltL() const { return keymap[KEY_ALT_L]; }
+    /**
+    * Is right alt key down
+    */
+    bool AltR() const { return keymap[KEY_ALT_R]; }
 };
 
 } //end namespace glul

@@ -49,7 +49,7 @@ public:
     */
     virtual void OnKeyDown(const glul::Keyboard& keyboard)
     {
-	std::cout << "Key Down" << std::endl;
+        std::cout << "Key Down" << std::endl;
     }
     
     
@@ -58,7 +58,7 @@ public:
     */
     virtual void OnKeyUp(const glul::Keyboard& keyboard)
     {
-	std::cout << "Key Up" << std::endl;
+        std::cout << "Key Up" << std::endl;
     }
     
 };

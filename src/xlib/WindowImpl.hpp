@@ -53,11 +53,10 @@ class WindowImpl : public Self<Window>
         
         ///Attributes
         XWindowAttributes  gwa;
-	
-	// register interest in the delete window message
-	Atom wmDeleteMessage; 
 
-  
+        /// WMDelete Message
+        Atom wmDeleteMessage; 
+
     protected:
         /**
         * \brief initialize
