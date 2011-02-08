@@ -27,6 +27,7 @@
 
 #include <glul/EventLoop>
 #include <glul/Window>
+#include <glul/Keyboard>
 
 //namespace
 using namespace glul;
@@ -46,12 +47,17 @@ void WindowImpl::initialize(const char* title, int width, int height)
     
     //set attributes
     //attributes.colormap = cmap;
-    attributes.event_mask = StructureNotifyMask | SubstructureNotifyMask | ExposureMask | KeyPressMask ;
+    attributes.event_mask = StructureNotifyMask | SubstructureNotifyMask | ExposureMask | KeyPressMask | KeyReleaseMask;
  
     window = XCreateWindow(display, root, 0, 0, width, height, 0, CopyFromParent, InputOutput, CopyFromParent, CWEventMask, &attributes);
 
     //save mapping
     xlib_window_map[window] = &self;
+    
+    //interested in WM_DELETE_WINDOW Message
+    //for the "XIO:fatal IO error 11" error
+    wmDeleteMessage = XInternAtom(display, "WM_DELETE_WINDOW", False);
+    XSetWMProtocols(display, window, &wmDeleteMessage, 1);
     
     XStoreName(display, window, title);
     XMapWindow(display, window);
@@ -96,6 +102,8 @@ int WindowImpl::getWidth()
 */
 void WindowImpl::dispatch(XEvent& event)
 {
+    static Keyboard keyboard;
+    
     Window* win = xlib_window_map[event.xany.window];
     
     switch(event.type)
@@ -107,6 +115,19 @@ void WindowImpl::dispatch(XEvent& event)
             win->OnResize(event.xconfigure.width, event.xconfigure.height);
             break;
         case KeyPress:
+	    win->OnKeyDown(keyboard);
             break;
+	case KeyRelease:
+	    win->OnKeyUp(keyboard);
+	    break;
+	case ClientMessage:
+	    if(event.xclient.data.l[0] == win->wmDeleteMessage)
+	    {
+		//window get deleted?
+		//must now kill window automatically
+		XUnmapWindow(win->display, win->window);
+		XDestroyWindow(win->display, win->window);
+	    }
+	    break;
     }
 }

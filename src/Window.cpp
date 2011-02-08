@@ -64,6 +64,19 @@ void Window::OnResize(int height, int width)
 {
 }
 
-
-
+/**
+* Keydown Event
+*/
+void Window::OnKeyDown(const Keyboard& keyboard)
+{
 }
+
+/**
+* Keydown Event
+*/
+void Window::OnKeyUp(const Keyboard& keyboard)
+{
+}
+	
+
+} //end namespace glul

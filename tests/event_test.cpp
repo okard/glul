@@ -1,7 +1,7 @@
 /*
     OpenGL Utility Library
 
-    Copyright (c) 2010  okard
+    Copyright (c) 2011 okard
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
@@ -21,71 +21,57 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
     THE SOFTWARE.
 */
-#ifndef __WINDOW_H__
-#define __WINDOW_H__
 
-#include "Keyboard.hpp"
-#include "Mouse.hpp"
+#include<iostream>
 
-/*
-* Include Platform Implementation
-*/
-#ifdef WIN32
-  #include "win/WindowImpl.hpp"
-#else
-  #include "xlib/WindowImpl.hpp"
-#endif
+#include <glul/EventLoop>
+#include <glul/GlWindow>
+#include <glul/GlContext>
 
-namespace glul
-{
-    
+using namespace glul;
+
 /**
-* Window Class
+* Test Class
 */
-class Window : public WindowImpl
+class glWindow : public glul::GlWindow
 {
-    //friend to allow private access
-    friend class WindowImpl;
+public:
+    /**
+    * Constructor
+    */
+    glWindow()
+        : GlWindow("glul", 800, 600)
+    {
+    }
     
-    private:
-        
-    public:
-        /**
-        * Constructor
-        */
-        Window();
-        
-        /**
-        * Constructor
-        */
-        Window(const char* title, int width, int height);
-        
-        /**
-        * Destructor
-        */
-        ~Window();
-        
-        /**
-        * Paint Event
-        */
-        virtual void OnPaint();
-        
-        /**
-        * Resize Event
-        */
-        virtual void OnResize(int width, int height);
-	
-	/**
-	* Keydown Event
-	*/
-	virtual void OnKeyDown(const Keyboard& keyboard);
-	
-	/**
-	* Keydown Event
-	*/
-	virtual void OnKeyUp(const Keyboard& keyboard);
+    /**
+    * Keyboard Key Down Event
+    */
+    virtual void OnKeyDown(const glul::Keyboard& keyboard)
+    {
+	std::cout << "Key Down" << std::endl;
+    }
+    
+    
+    /**
+    * Keyboard Key Up Event
+    */
+    virtual void OnKeyUp(const glul::Keyboard& keyboard)
+    {
+	std::cout << "Key Up" << std::endl;
+    }
+    
 };
 
-} //end namespace glul
 
-#endif /* __WINDOW_H__ */
+/**
+* Main Method
+*/
+int main(int argc, char *argv[])
+{
+    glWindow win;
+    win.show();
+  
+    return glul::EventLoopPtr->run();
+}
+ 
