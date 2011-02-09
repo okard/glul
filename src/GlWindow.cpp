@@ -37,7 +37,11 @@ GlWindow::GlWindow(const char* title, int width, int height)
     
     //init opengl
     OnInitialize();
-    OnResize(width, height);
+    
+    Rect r;
+    r.width = width;
+    r.height = height;
+    OnResize(r);
     
     //initialize Glew
     Glew.init();
@@ -67,9 +71,12 @@ void GlWindow::OnRender()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);      
     glLoadIdentity();
     
-    glBegin(GL_TRIANGLES);                      // Drawing Using Triangles
+    glBegin(GL_TRIANGLES);
+        glColor3f(1, 0, 0);
         glVertex3f( 0.0f, 1.0f, 0.0f);              // Top
+        glColor3f(0, 1, 0);
         glVertex3f(-1.0f,-1.0f, 0.0f);              // Bottom Left
+        glColor3f(0, 0, 1);
         glVertex3f( 1.0f,-1.0f, 0.0f);              // Bottom Right
     glEnd();
 }
@@ -86,14 +93,14 @@ void GlWindow::OnPaint()
 /**
 * Resize Event
 */
-void GlWindow::OnResize(int width, int height)
+void GlWindow::OnResize(const Rect& rect)
 {
     // Reset the coordinate system before modifying
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 
     //set viewport
-    glViewport(0,0, width, height);
+    glViewport(0,0, rect.width, rect.height);
     //set perspective
 }
 

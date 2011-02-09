@@ -24,8 +24,9 @@
 #ifndef __GLWINDOW_HPP__
 #define __GLWINDOW_HPP__
 
-#include <glul/Window>
-#include <glul/GlContext>
+#include "Types.hpp"
+#include "Window.hpp"
+#include "GlContext.hpp"
 
 namespace glul {
 
@@ -67,7 +68,7 @@ class GlWindow : public Window
         /**
         * Resize Event
         */
-        virtual void OnResize(int width, int height);
+        virtual void OnResize(const Rect& rect);
         
         /**
         * get Gl Context

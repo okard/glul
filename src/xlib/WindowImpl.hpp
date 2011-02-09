@@ -27,6 +27,7 @@
 #include <X11/Xlib.h>
 
 #include <glul/Self>
+#include <glul/Types>
 
 namespace glul {
 
@@ -56,6 +57,9 @@ class WindowImpl : public Self<Window>
 
         /// WMDelete Message
         Atom wmDeleteMessage; 
+        
+        /// Window Rect
+        Rect windowRect;
 
     protected:
         /**

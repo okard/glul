@@ -103,6 +103,7 @@ int WindowImpl::getWidth()
 void WindowImpl::dispatch(XEvent& event)
 {
     static Keyboard keyboard;
+    static Mouse mouse;
     
     Window* win = xlib_window_map[event.xany.window];
     
@@ -112,7 +113,9 @@ void WindowImpl::dispatch(XEvent& event)
             win->OnPaint();
             break;
         case ConfigureNotify:
-            win->OnResize(event.xconfigure.width, event.xconfigure.height);
+            win->windowRect.width = event.xconfigure.width;
+            win->windowRect.height =  event.xconfigure.height;
+            win->OnResize(win->windowRect);
             break;
         case KeyPress:
             win->OnKeyDown(keyboard);

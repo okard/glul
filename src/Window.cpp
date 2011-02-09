@@ -60,7 +60,7 @@ void Window::OnPaint()
 /**
 * Resize Event
 */
-void Window::OnResize(int height, int width)
+void Window::OnResize(const Rect& rect)
 {
 }
 
@@ -75,6 +75,27 @@ void Window::OnKeyDown(const Keyboard& keyboard)
 * Keydown Event
 */
 void Window::OnKeyUp(const Keyboard& keyboard)
+{
+}
+
+/**
+* Mouse Move
+*/
+void Window::OnMouseMove(const Mouse& mouse)
+{
+}
+
+/**
+* Mouse Button Down
+*/
+void Window::OnMouseButtonDown(const Mouse& mouse)
+{
+}
+
+/**
+* Mouse Button Up
+*/
+void Window::OnMouseButtonUp(const Mouse& mouse)
 {
 }
 	

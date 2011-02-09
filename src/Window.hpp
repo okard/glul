@@ -24,6 +24,7 @@
 #ifndef __WINDOW_H__
 #define __WINDOW_H__
 
+#include "Types.hpp"
 #include "Keyboard.hpp"
 #include "Mouse.hpp"
 
@@ -73,17 +74,32 @@ class Window : public WindowImpl
         /**
         * Resize Event
         */
-        virtual void OnResize(int width, int height);
+        virtual void OnResize(const Rect& rect);
+
+        /**
+        * Keydown Event
+        */
+        virtual void OnKeyDown(const Keyboard& keyboard);
 	
-	/**
-	* Keydown Event
-	*/
-	virtual void OnKeyDown(const Keyboard& keyboard);
-	
-	/**
-	* Keydown Event
-	*/
-	virtual void OnKeyUp(const Keyboard& keyboard);
+        /**
+        * Keydown Event
+        */
+        virtual void OnKeyUp(const Keyboard& keyboard);
+        
+        /**
+        * Mouse Move
+        */
+        virtual void OnMouseMove(const Mouse& mouse);
+        
+        /**
+        * Mouse Button Down
+        */
+        virtual void OnMouseButtonDown(const Mouse& mouse);
+        
+        /**
+        * Mouse Button Up
+        */
+        virtual void OnMouseButtonUp(const Mouse& mouse);
 };
 
 } //end namespace glul
