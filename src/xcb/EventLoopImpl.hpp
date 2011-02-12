@@ -26,13 +26,19 @@
 
 #include <xcb/xcb.h>
 
-#include "base/EventLoopBase.hpp"
+#include "../Self.hpp"
+
+namespace glul {
+    
+class EventLoop;
 
 /**
 * XCB Event Loop Impl
 */
-class EventLoopImpl : public EventLoopBase
+class EventLoopImpl :  public Self<EventLoop>
 {
+    using Self<EventLoop>::self;
+        
   private:
     //XCB Variables
     
@@ -93,5 +99,7 @@ class EventLoopImpl : public EventLoopBase
     */
     void dispose();
 };
+
+} //end namespace glul
 
 #endif /* __EVENTLOOPIMPL_H__ */

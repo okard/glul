@@ -23,12 +23,19 @@
 */
 #include "WindowImpl.hpp"
 
-#include "EventLoop.hpp"
+#include "../EventLoop.hpp"
+#include "../Window.hpp"
+#include "../Keyboard.hpp"
+
+using glul::Window;
+using glul::WindowImpl;
+using glul::EventLoop;
+
 
 void WindowImpl::initialize(const char* title, int width, int height)
 {
-        xcb_connection_t* connection = EventLoopPtr->xcbConnection();
-        xcb_screen_t* screen = EventLoopPtr->xcbScreen();
+        xcb_connection_t* connection = glul::EventLoopPtr->xcbConnection();
+        xcb_screen_t* screen = glul::EventLoopPtr->xcbScreen();
         
         /* create black graphics context */
         gc = xcb_generate_id(connection);

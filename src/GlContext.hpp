@@ -24,15 +24,20 @@
 #ifndef __GLCONTEXT_HPP__
 #define __GLCONTEXT_HPP__
 
-#include <glul/Window>
+#include "Platform.hpp"
+#include "Window.hpp"
 
 /*
 * Include Platform Implementation
 */
-#ifdef WIN32
-  #include "win/GlContextImpl.hpp"
+#ifdef GLUL_WIN32
+    #include "win/GlContextImpl.hpp"
+#elif defined GLUL_XCB
+    #include "xcb/GlContextImpl.hpp"
+#elif defined GLUL_XLIB
+    #include "xlib/GlContextImpl.hpp"
 #else
-  #include "xlib/GlContextImpl.hpp"
+    #error Missing Platform Implement
 #endif
 
 namespace glul {

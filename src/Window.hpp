@@ -24,6 +24,7 @@
 #ifndef __WINDOW_H__
 #define __WINDOW_H__
 
+#include "Platform.hpp"
 #include "Types.hpp"
 #include "Keyboard.hpp"
 #include "Mouse.hpp"
@@ -31,14 +32,17 @@
 /*
 * Include Platform Implementation
 */
-#ifdef WIN32
-  #include "win/WindowImpl.hpp"
+#ifdef GLUL_WIN32
+    #include "win/WindowImpl.hpp"
+#elif defined GLUL_XCB
+    #include "xcb/WindowImpl.hpp"
+#elif defined GLUL_XLIB
+    #include "xlib/WindowImpl.hpp"
 #else
-  #include "xlib/WindowImpl.hpp"
+    #error Missing Platform Implementation
 #endif
 
-namespace glul
-{
+namespace glul {
     
 /**
 * Window Class

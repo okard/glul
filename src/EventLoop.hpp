@@ -24,13 +24,19 @@
 #ifndef __EVENTLOOP_H__
 #define __EVENTLOOP_H__
 
+#include "Platform.hpp"
+
 /*
 * Include Platform Implementation
 */
-#ifdef WIN32
-  #include "win/EventLoopImpl.hpp"
+#ifdef GLUL_WIN32
+    #include "win/EventLoopImpl.hpp"
+#elif defined GLUL_XCB
+    #include "xcb/EventLoopImpl.hpp"
+#elif defined GLUL_XLIB
+    #include "xlib/EventLoopImpl.hpp"
 #else
-  #include "xlib/EventLoopImpl.hpp"
+    #error Missing Platform Implement
 #endif
 
 namespace glul {

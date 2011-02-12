@@ -5,6 +5,8 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
 PROJECT(glul)
 
+SET(GLUL_XCB true)
+
 INCLUDE_DIRECTORIES(src)
 INCLUDE_DIRECTORIES(include)
 
@@ -14,6 +16,12 @@ IF(WIN32)
                         src/win/WindowImpl.cpp
                         src/win/GlContextImpl.cpp)
   set(GLUL_PLATFORM_LIBS "OpenGL32")
+
+ELSEIF(GLUL_XCB)
+  set(GLUL_PLATFORM_SRC src/xcb/EventLoopImpl.cpp
+                        src/xcb/WindowImpl.cpp)
+  set(GLUL_PLATFORM_LIBS "xcb" "GL" "GLU")
+
 ELSE()
   set(GLUL_PLATFORM_SRC src/xlib/EventLoopImpl.cpp
                         src/xlib/WindowImpl.cpp
@@ -30,8 +38,8 @@ ADD_LIBRARY(glul SHARED
             src/glew/glew.c
             src/glew/Glew.cpp
             src/EventLoop.cpp
-            src/GlWindow.cpp
-            src/Window.cpp)
+            src/Window.cpp
+            src/GlWindow.cpp)
 
 TARGET_LINK_LIBRARIES(glul ${GLUL_PLATFORM_LIBS})
 

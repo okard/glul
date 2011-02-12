@@ -23,12 +23,17 @@
 */
 #include "EventLoopImpl.hpp"
 
-#include "Window.hpp"
+#include "../EventLoop.hpp"
+#include "../Window.hpp"
+#include "../Exception.hpp"
+
+using namespace glul;
 
 /**
 * Constructor
 */
-EventLoopImpl::EventLoopImpl()  : connection(0), screen(0), event(0)
+EventLoopImpl::EventLoopImpl()  
+    : connection(0), screen(0), event(0)
 {
    init();
 }
@@ -46,7 +51,7 @@ EventLoopImpl::~EventLoopImpl()
 */
 bool EventLoopImpl::getEvent()
 {
-   return running && (event = xcb_wait_for_event(connection));
+   return self.running && (event = xcb_wait_for_event(connection));
 }
         
 /**
@@ -55,7 +60,7 @@ bool EventLoopImpl::getEvent()
 bool EventLoopImpl::peekEvent()
 {
     //wrong?
-    return running && (event = xcb_poll_for_event(connection));
+    return self.running && (event = xcb_poll_for_event(connection));
 }
 
 /**
@@ -64,7 +69,7 @@ bool EventLoopImpl::peekEvent()
 bool EventLoopImpl::dispatch()
 {
     //dispatch to Window here
-    Window::dispatch(event);
+    glul::Window::dispatch(event);
    
     delete event;
     event = 0;
@@ -97,7 +102,7 @@ void EventLoopImpl::init()
    {
       //Error Handling
       //Log(LogType.Fatal, "Cannot open display");
-      result = 1;
+      self.result = 1;
    }
      
    /* get the first screen */
