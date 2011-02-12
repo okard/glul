@@ -12,21 +12,23 @@ INCLUDE_DIRECTORIES(include)
 
 # Include Platform specific files to build
 IF(WIN32)
-  set(GLUL_PLATFORM_SRC src/win/EventLoopImpl.cpp
+    set(GLUL_PLATFORM_SRC src/win/EventLoopImpl.cpp
                         src/win/WindowImpl.cpp
                         src/win/GlContextImpl.cpp)
-  set(GLUL_PLATFORM_LIBS "OpenGL32")
+    set(GLUL_PLATFORM_LIBS "OpenGL32")
 
 ELSEIF(GLUL_XCB)
-  set(GLUL_PLATFORM_SRC src/xcb/EventLoopImpl.cpp
-                        src/xcb/WindowImpl.cpp)
-  set(GLUL_PLATFORM_LIBS "xcb" "GL" "GLU")
+    add_definitions(-DGLUL_XCB)
+    set(GLUL_PLATFORM_SRC src/xcb/EventLoopImpl.cpp
+                          src/xcb/WindowImpl.cpp)
+    set(GLUL_PLATFORM_LIBS "xcb" "GL" "GLU")
 
 ELSE()
-  set(GLUL_PLATFORM_SRC src/xlib/EventLoopImpl.cpp
-                        src/xlib/WindowImpl.cpp
-                        src/xlib/GlContextImpl.cpp)
-  set(GLUL_PLATFORM_LIBS "X11" "GL" "GLU")
+    add_definitions(-DGLUL_XCB)
+    set(GLUL_PLATFORM_SRC src/xlib/EventLoopImpl.cpp
+                          src/xlib/WindowImpl.cpp
+                          src/xlib/GlContextImpl.cpp)
+    set(GLUL_PLATFORM_LIBS "X11" "GL" "GLU")
 ENDIF()
 
 #definitions
