@@ -27,9 +27,8 @@
 #include <glul/Self>
 #include <glul/Window>
 
-#include <GL/gl.h>
-#include <GL/glx.h>
-#include <GL/glu.h>
+#include "../glew/glew.h"
+#include "../glew/glxew.h"
 
 namespace glul {
 
