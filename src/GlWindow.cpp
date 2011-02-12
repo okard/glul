@@ -23,6 +23,8 @@
 */
 #include "GlWindow.hpp"
 
+#include "glew/Glew.hpp"
+
 using namespace glul;
 
 

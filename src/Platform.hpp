@@ -30,12 +30,12 @@ THE SOFTWARE.
 */
 #ifdef WIN32
     #define GLUL_WIN32
-#elif defined GLUL_XCB
-    #undef GLUL_XLIB
-#elif !defined GLUL_XCB
-    #define GLUL_XLIB
 #endif
 
-
+#if !defined(GLUL_WIN32) \
+&& !defined(GLUL_XCB) \
+&& !defined(GLUL_XLIB)
+#error No Platform defined
+#endif
 
 #endif // __GLUL_PLATFORM_HPP__

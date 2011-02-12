@@ -29,7 +29,7 @@
 ** THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "glew.h"
+#include <GL/glew.h>
 #if defined(_WIN32)
 #  include "wglew.h"
 #elif !defined(__APPLE__) || defined(GLEW_APPLE_GLX)
@@ -65,6 +65,29 @@
 #  define GLXEW_CONTEXT_ARG_DEF_LIST void
 #endif /* GLEW_MX */
 
+#if defined(__sgi) || defined (__sun) || defined(GLEW_APPLE_GLX)
+#include <dlfcn.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+void* dlGetProcAddress (const GLubyte* name)
+{
+  static void* h = NULL;
+  static void* gpa;
+
+  if (h == NULL)
+  {
+    if ((h = dlopen(NULL, RTLD_LAZY | RTLD_LOCAL)) == NULL) return NULL;
+    gpa = dlsym(h, "glXGetProcAddress");
+  }
+
+  if (gpa != NULL)
+    return ((void*(*)(const GLubyte*))gpa)(name);
+  else
+    return dlsym(h, (const char*)name);
+}
+#endif /* __sgi || __sun || GLEW_APPLE_GLX */
+
 #if defined(__APPLE__)
 #include <stdlib.h>
 #include <string.h>
@@ -81,7 +104,14 @@ void* NSGLGetProcAddress (const GLubyte *name)
   {
     image = dlopen("/System/Library/Frameworks/OpenGL.framework/Versions/Current/OpenGL", RTLD_LAZY);
   }
-  return image ? dlsym(image, (const char*)name) : NULL;
+  if( !image ) return NULL;
+  void* addr = dlsym(image, (const char*)name);
+  if( addr ) return addr;
+#ifdef GLEW_APPLE_GLX
+  return dlGetProcAddress( name ); // try next for glx symbols
+#else
+  return NULL;
+#endif
 }
 #else
 
@@ -105,33 +135,15 @@ void* NSGLGetProcAddress (const GLubyte *name)
 	 symbol = NSLookupAndBindSymbol(symbolName); */
   symbol = image ? NSLookupSymbolInImage(image, symbolName, NSLOOKUPSYMBOLINIMAGE_OPTION_BIND | NSLOOKUPSYMBOLINIMAGE_OPTION_RETURN_ON_ERROR) : NULL;
   free(symbolName);
-  return symbol ? NSAddressOfSymbol(symbol) : NULL;
+  if( symbol ) return NSAddressOfSymbol(symbol);
+#ifdef GLEW_APPLE_GLX
+  return dlGetProcAddress( name ); // try next for glx symbols
+#else
+  return NULL;
+#endif
 }
 #endif /* MAC_OS_X_VERSION_10_3 */
 #endif /* __APPLE__ */
-
-#if defined(__sgi) || defined (__sun)
-#include <dlfcn.h>
-#include <stdio.h>
-#include <stdlib.h>
-
-void* dlGetProcAddress (const GLubyte* name)
-{
-  static void* h = NULL;
-  static void* gpa;
-
-  if (h == NULL)
-  {
-    if ((h = dlopen(NULL, RTLD_LAZY | RTLD_LOCAL)) == NULL) return NULL;
-    gpa = dlsym(h, "glXGetProcAddress");
-  }
-
-  if (gpa != NULL)
-    return ((void*(*)(const GLubyte*))gpa)(name);
-  else
-    return dlsym(h, (const char*)name);
-}
-#endif /* __sgi || __sun */
 
 /*
  * Define glewGetProcAddress.
@@ -195,12 +207,12 @@ static GLboolean _glewStrSame1 (GLubyte** a, GLuint* na, const GLubyte* b, GLuin
   {
     GLuint i=0;
     while (i < nb && (*a)+i != NULL && b+i != NULL && (*a)[i] == b[i]) i++;
-	if(i == nb)
-	{
-		*a = *a + nb;
-		*na = *na - nb;
-		return GL_TRUE;
-	}
+    if(i == nb)
+    {
+      *a = *a + nb;
+      *na = *na - nb;
+      return GL_TRUE;
+    }
   }
   return GL_FALSE;
 }
@@ -211,12 +223,12 @@ static GLboolean _glewStrSame2 (GLubyte** a, GLuint* na, const GLubyte* b, GLuin
   {
     GLuint i=0;
     while (i < nb && (*a)+i != NULL && b+i != NULL && (*a)[i] == b[i]) i++;
-	if(i == nb)
-	{
-		*a = *a + nb;
-		*na = *na - nb;
-		return GL_TRUE;
-	}
+    if(i == nb)
+    {
+      *a = *a + nb;
+      *na = *na - nb;
+      return GL_TRUE;
+    }
   }
   return GL_FALSE;
 }
@@ -1756,7 +1768,6 @@ PFNGLARRAYELEMENTEXTPROC __glewArrayElementEXT = NULL;
 PFNGLCOLORPOINTEREXTPROC __glewColorPointerEXT = NULL;
 PFNGLDRAWARRAYSEXTPROC __glewDrawArraysEXT = NULL;
 PFNGLEDGEFLAGPOINTEREXTPROC __glewEdgeFlagPointerEXT = NULL;
-PFNGLGETPOINTERVEXTPROC __glewGetPointervEXT = NULL;
 PFNGLINDEXPOINTEREXTPROC __glewIndexPointerEXT = NULL;
 PFNGLNORMALPOINTEREXTPROC __glewNormalPointerEXT = NULL;
 PFNGLTEXCOORDPOINTEREXTPROC __glewTexCoordPointerEXT = NULL;
@@ -2360,6 +2371,7 @@ PFNGLADDSWAPHINTRECTWINPROC __glewAddSwapHintRectWIN = NULL;
 
 GLboolean __GLEW_VERSION_1_1 = GL_FALSE;
 GLboolean __GLEW_VERSION_1_2 = GL_FALSE;
+GLboolean __GLEW_VERSION_1_2_1 = GL_FALSE;
 GLboolean __GLEW_VERSION_1_3 = GL_FALSE;
 GLboolean __GLEW_VERSION_1_4 = GL_FALSE;
 GLboolean __GLEW_VERSION_1_5 = GL_FALSE;
@@ -2376,6 +2388,7 @@ GLboolean __GLEW_3DFX_tbuffer = GL_FALSE;
 GLboolean __GLEW_3DFX_texture_compression_FXT1 = GL_FALSE;
 GLboolean __GLEW_AMD_conservative_depth = GL_FALSE;
 GLboolean __GLEW_AMD_debug_output = GL_FALSE;
+GLboolean __GLEW_AMD_depth_clamp_separate = GL_FALSE;
 GLboolean __GLEW_AMD_draw_buffers_blend = GL_FALSE;
 GLboolean __GLEW_AMD_name_gen_delete = GL_FALSE;
 GLboolean __GLEW_AMD_performance_monitor = GL_FALSE;
@@ -2602,6 +2615,7 @@ GLboolean __GLEW_EXT_texture_object = GL_FALSE;
 GLboolean __GLEW_EXT_texture_perturb_normal = GL_FALSE;
 GLboolean __GLEW_EXT_texture_rectangle = GL_FALSE;
 GLboolean __GLEW_EXT_texture_sRGB = GL_FALSE;
+GLboolean __GLEW_EXT_texture_sRGB_decode = GL_FALSE;
 GLboolean __GLEW_EXT_texture_shared_exponent = GL_FALSE;
 GLboolean __GLEW_EXT_texture_snorm = GL_FALSE;
 GLboolean __GLEW_EXT_texture_swizzle = GL_FALSE;
@@ -2634,6 +2648,7 @@ GLboolean __GLEW_MESA_pack_invert = GL_FALSE;
 GLboolean __GLEW_MESA_resize_buffers = GL_FALSE;
 GLboolean __GLEW_MESA_window_pos = GL_FALSE;
 GLboolean __GLEW_MESA_ycbcr_texture = GL_FALSE;
+GLboolean __GLEW_NVX_gpu_memory_info = GL_FALSE;
 GLboolean __GLEW_NV_blend_square = GL_FALSE;
 GLboolean __GLEW_NV_conditional_render = GL_FALSE;
 GLboolean __GLEW_NV_copy_depth_to_color = GL_FALSE;
@@ -2785,6 +2800,10 @@ static GLboolean _glewInit_GL_VERSION_1_2 (GLEW_CONTEXT_ARG_DEF_INIT)
 }
 
 #endif /* GL_VERSION_1_2 */
+
+#ifdef GL_VERSION_1_2_1
+
+#endif /* GL_VERSION_1_2_1 */
 
 #ifdef GL_VERSION_1_3
 
@@ -3229,6 +3248,10 @@ static GLboolean _glewInit_GL_AMD_debug_output (GLEW_CONTEXT_ARG_DEF_INIT)
 }
 
 #endif /* GL_AMD_debug_output */
+
+#ifdef GL_AMD_depth_clamp_separate
+
+#endif /* GL_AMD_depth_clamp_separate */
 
 #ifdef GL_AMD_draw_buffers_blend
 
@@ -6162,6 +6185,10 @@ static GLboolean _glewInit_GL_EXT_texture_perturb_normal (GLEW_CONTEXT_ARG_DEF_I
 
 #endif /* GL_EXT_texture_sRGB */
 
+#ifdef GL_EXT_texture_sRGB_decode
+
+#endif /* GL_EXT_texture_sRGB_decode */
+
 #ifdef GL_EXT_texture_shared_exponent
 
 #endif /* GL_EXT_texture_shared_exponent */
@@ -6217,7 +6244,6 @@ static GLboolean _glewInit_GL_EXT_vertex_array (GLEW_CONTEXT_ARG_DEF_INIT)
   r = ((glColorPointerEXT = (PFNGLCOLORPOINTEREXTPROC)glewGetProcAddress((const GLubyte*)"glColorPointerEXT")) == NULL) || r;
   r = ((glDrawArraysEXT = (PFNGLDRAWARRAYSEXTPROC)glewGetProcAddress((const GLubyte*)"glDrawArraysEXT")) == NULL) || r;
   r = ((glEdgeFlagPointerEXT = (PFNGLEDGEFLAGPOINTEREXTPROC)glewGetProcAddress((const GLubyte*)"glEdgeFlagPointerEXT")) == NULL) || r;
-  r = ((glGetPointervEXT = (PFNGLGETPOINTERVEXTPROC)glewGetProcAddress((const GLubyte*)"glGetPointervEXT")) == NULL) || r;
   r = ((glIndexPointerEXT = (PFNGLINDEXPOINTEREXTPROC)glewGetProcAddress((const GLubyte*)"glIndexPointerEXT")) == NULL) || r;
   r = ((glNormalPointerEXT = (PFNGLNORMALPOINTEREXTPROC)glewGetProcAddress((const GLubyte*)"glNormalPointerEXT")) == NULL) || r;
   r = ((glTexCoordPointerEXT = (PFNGLTEXCOORDPOINTEREXTPROC)glewGetProcAddress((const GLubyte*)"glTexCoordPointerEXT")) == NULL) || r;
@@ -6545,6 +6571,10 @@ static GLboolean _glewInit_GL_MESA_window_pos (GLEW_CONTEXT_ARG_DEF_INIT)
 #ifdef GL_MESA_ycbcr_texture
 
 #endif /* GL_MESA_ycbcr_texture */
+
+#ifdef GL_NVX_gpu_memory_info
+
+#endif /* GL_NVX_gpu_memory_info */
 
 #ifdef GL_NV_blend_square
 
@@ -7967,24 +7997,27 @@ GLenum glewContextInit (GLEW_CONTEXT_ARG_DEF_LIST)
   }
   else
   {
-    CONST_CAST(GLEW_VERSION_4_1) = ( major > 4 )               || ( major == 4 && minor >= 1 ) ? GL_TRUE : GL_FALSE;
-    CONST_CAST(GLEW_VERSION_4_0) = GLEW_VERSION_4_1 == GL_TRUE || ( major == 4               ) ? GL_TRUE : GL_FALSE;
-    CONST_CAST(GLEW_VERSION_3_3) = GLEW_VERSION_4_0 == GL_TRUE || ( major == 3 && minor >= 3 ) ? GL_TRUE : GL_FALSE;
-    CONST_CAST(GLEW_VERSION_3_2) = GLEW_VERSION_3_3 == GL_TRUE || ( major == 3 && minor >= 2 ) ? GL_TRUE : GL_FALSE;
-    CONST_CAST(GLEW_VERSION_3_1) = GLEW_VERSION_3_2 == GL_TRUE || ( major == 3 && minor >= 1 ) ? GL_TRUE : GL_FALSE;
-    CONST_CAST(GLEW_VERSION_3_0) = GLEW_VERSION_3_1 == GL_TRUE || ( major == 3               ) ? GL_TRUE : GL_FALSE;
-    CONST_CAST(GLEW_VERSION_2_1) = GLEW_VERSION_3_0 == GL_TRUE || ( major == 2 && minor >= 1 ) ? GL_TRUE : GL_FALSE;    
-    CONST_CAST(GLEW_VERSION_2_0) = GLEW_VERSION_2_1 == GL_TRUE || ( major == 2               ) ? GL_TRUE : GL_FALSE;
-    CONST_CAST(GLEW_VERSION_1_5) = GLEW_VERSION_2_0 == GL_TRUE || ( major == 1 && minor >= 5 ) ? GL_TRUE : GL_FALSE;
-    CONST_CAST(GLEW_VERSION_1_4) = GLEW_VERSION_1_5 == GL_TRUE || ( major == 1 && minor >= 4 ) ? GL_TRUE : GL_FALSE;
-    CONST_CAST(GLEW_VERSION_1_3) = GLEW_VERSION_1_4 == GL_TRUE || ( major == 1 && minor >= 3 ) ? GL_TRUE : GL_FALSE;
-    CONST_CAST(GLEW_VERSION_1_2) = GLEW_VERSION_1_3 == GL_TRUE || ( major == 1 && minor >= 2 ) ? GL_TRUE : GL_FALSE;
-    CONST_CAST(GLEW_VERSION_1_1) = GLEW_VERSION_1_2 == GL_TRUE || ( major == 1 && minor >= 1 ) ? GL_TRUE : GL_FALSE;
+    CONST_CAST(GLEW_VERSION_4_1)   = ( major > 4 )                 || ( major == 4 && minor >= 1 ) ? GL_TRUE : GL_FALSE;
+    CONST_CAST(GLEW_VERSION_4_0)   = GLEW_VERSION_4_1   == GL_TRUE || ( major == 4               ) ? GL_TRUE : GL_FALSE;
+    CONST_CAST(GLEW_VERSION_3_3)   = GLEW_VERSION_4_0   == GL_TRUE || ( major == 3 && minor >= 3 ) ? GL_TRUE : GL_FALSE;
+    CONST_CAST(GLEW_VERSION_3_2)   = GLEW_VERSION_3_3   == GL_TRUE || ( major == 3 && minor >= 2 ) ? GL_TRUE : GL_FALSE;
+    CONST_CAST(GLEW_VERSION_3_1)   = GLEW_VERSION_3_2   == GL_TRUE || ( major == 3 && minor >= 1 ) ? GL_TRUE : GL_FALSE;
+    CONST_CAST(GLEW_VERSION_3_0)   = GLEW_VERSION_3_1   == GL_TRUE || ( major == 3               ) ? GL_TRUE : GL_FALSE;
+    CONST_CAST(GLEW_VERSION_2_1)   = GLEW_VERSION_3_0   == GL_TRUE || ( major == 2 && minor >= 1 ) ? GL_TRUE : GL_FALSE;    
+    CONST_CAST(GLEW_VERSION_2_0)   = GLEW_VERSION_2_1   == GL_TRUE || ( major == 2               ) ? GL_TRUE : GL_FALSE;
+    CONST_CAST(GLEW_VERSION_1_5)   = GLEW_VERSION_2_0   == GL_TRUE || ( major == 1 && minor >= 5 ) ? GL_TRUE : GL_FALSE;
+    CONST_CAST(GLEW_VERSION_1_4)   = GLEW_VERSION_1_5   == GL_TRUE || ( major == 1 && minor >= 4 ) ? GL_TRUE : GL_FALSE;
+    CONST_CAST(GLEW_VERSION_1_3)   = GLEW_VERSION_1_4   == GL_TRUE || ( major == 1 && minor >= 3 ) ? GL_TRUE : GL_FALSE;
+    CONST_CAST(GLEW_VERSION_1_2_1) = GLEW_VERSION_1_3   == GL_TRUE                                 ? GL_TRUE : GL_FALSE; 
+    CONST_CAST(GLEW_VERSION_1_2)   = GLEW_VERSION_1_2_1 == GL_TRUE || ( major == 1 && minor >= 2 ) ? GL_TRUE : GL_FALSE;
+    CONST_CAST(GLEW_VERSION_1_1)   = GLEW_VERSION_1_2   == GL_TRUE || ( major == 1 && minor >= 1 ) ? GL_TRUE : GL_FALSE;
   }
   /* initialize extensions */
 #ifdef GL_VERSION_1_2
   if (glewExperimental || GLEW_VERSION_1_2) CONST_CAST(GLEW_VERSION_1_2) = !_glewInit_GL_VERSION_1_2(GLEW_CONTEXT_ARG_VAR_INIT);
 #endif /* GL_VERSION_1_2 */
+#ifdef GL_VERSION_1_2_1
+#endif /* GL_VERSION_1_2_1 */
 #ifdef GL_VERSION_1_3
   if (glewExperimental || GLEW_VERSION_1_3) CONST_CAST(GLEW_VERSION_1_3) = !_glewInit_GL_VERSION_1_3(GLEW_CONTEXT_ARG_VAR_INIT);
 #endif /* GL_VERSION_1_3 */
@@ -8034,6 +8067,9 @@ GLenum glewContextInit (GLEW_CONTEXT_ARG_DEF_LIST)
   CONST_CAST(GLEW_AMD_debug_output) = glewGetExtension("GL_AMD_debug_output");
   if (glewExperimental || GLEW_AMD_debug_output) CONST_CAST(GLEW_AMD_debug_output) = !_glewInit_GL_AMD_debug_output(GLEW_CONTEXT_ARG_VAR_INIT);
 #endif /* GL_AMD_debug_output */
+#ifdef GL_AMD_depth_clamp_separate
+  CONST_CAST(GLEW_AMD_depth_clamp_separate) = glewGetExtension("GL_AMD_depth_clamp_separate");
+#endif /* GL_AMD_depth_clamp_separate */
 #ifdef GL_AMD_draw_buffers_blend
   CONST_CAST(GLEW_AMD_draw_buffers_blend) = glewGetExtension("GL_AMD_draw_buffers_blend");
   if (glewExperimental || GLEW_AMD_draw_buffers_blend) CONST_CAST(GLEW_AMD_draw_buffers_blend) = !_glewInit_GL_AMD_draw_buffers_blend(GLEW_CONTEXT_ARG_VAR_INIT);
@@ -8830,6 +8866,9 @@ GLenum glewContextInit (GLEW_CONTEXT_ARG_DEF_LIST)
 #ifdef GL_EXT_texture_sRGB
   CONST_CAST(GLEW_EXT_texture_sRGB) = glewGetExtension("GL_EXT_texture_sRGB");
 #endif /* GL_EXT_texture_sRGB */
+#ifdef GL_EXT_texture_sRGB_decode
+  CONST_CAST(GLEW_EXT_texture_sRGB_decode) = glewGetExtension("GL_EXT_texture_sRGB_decode");
+#endif /* GL_EXT_texture_sRGB_decode */
 #ifdef GL_EXT_texture_shared_exponent
   CONST_CAST(GLEW_EXT_texture_shared_exponent) = glewGetExtension("GL_EXT_texture_shared_exponent");
 #endif /* GL_EXT_texture_shared_exponent */
@@ -8942,6 +8981,9 @@ GLenum glewContextInit (GLEW_CONTEXT_ARG_DEF_LIST)
 #ifdef GL_MESA_ycbcr_texture
   CONST_CAST(GLEW_MESA_ycbcr_texture) = glewGetExtension("GL_MESA_ycbcr_texture");
 #endif /* GL_MESA_ycbcr_texture */
+#ifdef GL_NVX_gpu_memory_info
+  CONST_CAST(GLEW_NVX_gpu_memory_info) = glewGetExtension("GL_NVX_gpu_memory_info");
+#endif /* GL_NVX_gpu_memory_info */
 #ifdef GL_NV_blend_square
   CONST_CAST(GLEW_NV_blend_square) = glewGetExtension("GL_NV_blend_square");
 #endif /* GL_NV_blend_square */
@@ -11312,10 +11354,10 @@ const GLubyte* glewGetString (GLenum name)
   static const GLubyte* _glewString[] =
   {
     (const GLubyte*)NULL,
-    (const GLubyte*)"1.5.6",
+    (const GLubyte*)"1.5.8",
     (const GLubyte*)"1",
     (const GLubyte*)"5",
-    (const GLubyte*)"6"
+    (const GLubyte*)"8"
   };
   const int max_string = sizeof(_glewString)/sizeof(*_glewString) - 1;
   return _glewString[(int)name > max_string ? 0 : (int)name];
@@ -11348,7 +11390,7 @@ GLenum glewInit ()
 
 #endif /* !GLEW_MX */
 #ifdef GLEW_MX
-GLboolean glewContextIsSupported (GLEWContext* ctx, const char* name)
+GLboolean glewContextIsSupported (const GLEWContext* ctx, const char* name)
 #else
 GLboolean glewIsSupported (const char* name)
 #endif
@@ -11366,6 +11408,13 @@ GLboolean glewIsSupported (const char* name)
         if (_glewStrSame3(&pos, &len, (const GLubyte*)"1_2", 3))
         {
           ret = GLEW_VERSION_1_2;
+          continue;
+        }
+#endif
+#ifdef GL_VERSION_1_2_1
+        if (_glewStrSame3(&pos, &len, (const GLubyte*)"1_2_1", 5))
+        {
+          ret = GLEW_VERSION_1_2_1;
           continue;
         }
 #endif
@@ -11484,6 +11533,13 @@ GLboolean glewIsSupported (const char* name)
         if (_glewStrSame3(&pos, &len, (const GLubyte*)"debug_output", 12))
         {
           ret = GLEW_AMD_debug_output;
+          continue;
+        }
+#endif
+#ifdef GL_AMD_depth_clamp_separate
+        if (_glewStrSame3(&pos, &len, (const GLubyte*)"depth_clamp_separate", 20))
+        {
+          ret = GLEW_AMD_depth_clamp_separate;
           continue;
         }
 #endif
@@ -13084,6 +13140,13 @@ GLboolean glewIsSupported (const char* name)
           continue;
         }
 #endif
+#ifdef GL_EXT_texture_sRGB_decode
+        if (_glewStrSame3(&pos, &len, (const GLubyte*)"texture_sRGB_decode", 19))
+        {
+          ret = GLEW_EXT_texture_sRGB_decode;
+          continue;
+        }
+#endif
 #ifdef GL_EXT_texture_shared_exponent
         if (_glewStrSame3(&pos, &len, (const GLubyte*)"texture_shared_exponent", 23))
         {
@@ -13329,6 +13392,16 @@ GLboolean glewIsSupported (const char* name)
         if (_glewStrSame3(&pos, &len, (const GLubyte*)"ycbcr_texture", 13))
         {
           ret = GLEW_MESA_ycbcr_texture;
+          continue;
+        }
+#endif
+      }
+      if (_glewStrSame2(&pos, &len, (const GLubyte*)"NVX_", 4))
+      {
+#ifdef GL_NVX_gpu_memory_info
+        if (_glewStrSame3(&pos, &len, (const GLubyte*)"gpu_memory_info", 15))
+        {
+          ret = GLEW_NVX_gpu_memory_info;
           continue;
         }
 #endif
@@ -14309,7 +14382,7 @@ GLboolean glewIsSupported (const char* name)
 #if defined(_WIN32)
 
 #if defined(GLEW_MX)
-GLboolean wglewContextIsSupported (WGLEWContext* ctx, const char* name)
+GLboolean wglewContextIsSupported (const WGLEWContext* ctx, const char* name)
 #else
 GLboolean wglewIsSupported (const char* name)
 #endif
@@ -14672,7 +14745,7 @@ GLboolean wglewIsSupported (const char* name)
 #elif !defined(__APPLE__) || defined(GLEW_APPLE_GLX)
 
 #if defined(GLEW_MX)
-GLboolean glxewContextIsSupported (GLXEWContext* ctx, const char* name)
+GLboolean glxewContextIsSupported (const GLXEWContext* ctx, const char* name)
 #else
 GLboolean glxewIsSupported (const char* name)
 #endif

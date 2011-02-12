@@ -20,11 +20,12 @@ IF(WIN32)
 ELSEIF(GLUL_XCB)
     add_definitions(-DGLUL_XCB)
     set(GLUL_PLATFORM_SRC src/xcb/EventLoopImpl.cpp
-                          src/xcb/WindowImpl.cpp)
+                          src/xcb/WindowImpl.cpp
+                          src/xcb/GlContextImpl.cpp)
     set(GLUL_PLATFORM_LIBS "xcb" "GL" "GLU")
 
 ELSE()
-    add_definitions(-DGLUL_XCB)
+    add_definitions(-DGLUL_XLIB)
     set(GLUL_PLATFORM_SRC src/xlib/EventLoopImpl.cpp
                           src/xlib/WindowImpl.cpp
                           src/xlib/GlContextImpl.cpp)

@@ -1,7 +1,7 @@
 /*
     OpenGL Utility Library
 
-    Copyright (c) 2010  okard
+    Copyright (c) 2011  okard
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
@@ -21,22 +21,22 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
     THE SOFTWARE.
 */
-#ifndef __GLCONTEXTIMPL_HPP__
-#define __GLCONTEXTIMPL_HPP__
+#ifndef __GLUL__GLCONTEXTIMPL_HPP__
+#define __GLUL__GLCONTEXTIMPL_HPP__
 
 #include <glul/Self>
 #include <glul/Window>
 
-#include <GL/gl.h>
-#include <GL/glx.h>
-#include <GL/glu.h>
+
+// Works XCB-GLX? or is it still necessary to use xlib glx brigde?
+
 
 namespace glul {
 
 class GlContext;
     
 /**
-* Xlib OpenGL Context
+* XCB OpenGL Context
 */
 class GlContextImpl : public Self<GlContext>
 {
@@ -45,15 +45,6 @@ class GlContextImpl : public Self<GlContext>
     private:
         ///glul Window
         Window& window;
-        
-        ///xlib display
-        Display* display;
-        
-        ///GLX OpenGL Context
-        GLXContext context;
-        
-        /// visual info
-        XVisualInfo             *vi;
 
     public:
         /**
@@ -76,7 +67,7 @@ class GlContextImpl : public Self<GlContext>
         */
         void swap();
 };
+    
+} //end namespace glul
 
-}//end namespace glul
-
-#endif /* __GLCONTEXTIMPL_HPP__ */
+#endif // __GLUL__GLCONTEXTIMPL_HPP__

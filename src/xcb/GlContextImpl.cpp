@@ -1,7 +1,7 @@
 /*
     OpenGL Utility Library
 
-    Copyright (c) 2010  okard
+    Copyright (c) 2011  okard
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
@@ -21,62 +21,44 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
     THE SOFTWARE.
 */
-#ifndef __GLCONTEXTIMPL_HPP__
-#define __GLCONTEXTIMPL_HPP__
+#include "GlContextImpl.hpp"
 
-#include <glul/Self>
+#include <glul/EventLoop>
 #include <glul/Window>
+#include <glul/GlContext>
+#include <glul/Exception>
 
-#include <GL/gl.h>
-#include <GL/glx.h>
-#include <GL/glu.h>
+using glul::GlContextImpl;
 
-namespace glul {
-
-class GlContext;
-    
 /**
-* Xlib OpenGL Context
+* Constructor
 */
-class GlContextImpl : public Self<GlContext>
+GlContextImpl::GlContextImpl(Window& win)
+ : window(win)
 {
-    using Self<GlContext>::self;
     
-    private:
-        ///glul Window
-        Window& window;
-        
-        ///xlib display
-        Display* display;
-        
-        ///GLX OpenGL Context
-        GLXContext context;
-        
-        /// visual info
-        XVisualInfo             *vi;
+}
 
-    public:
-        /**
-        * Constructor
-        */
-        GlContextImpl(Window& win); 
-        
-        /**
-        * Destructor
-        */
-        ~GlContextImpl();
-        
-        /**
-        * make GlContext current
-        */
-        void makeCurrent();
-        
-        /**
-        * swap buffers
-        */
-        void swap();
-};
+/**
+* Destructor
+*/
+GlContextImpl::~GlContextImpl()
+{
 
-}//end namespace glul
+}
+        
+/**
+* Make OpenGL Context current
+*/
+void GlContextImpl::makeCurrent()
+{
 
-#endif /* __GLCONTEXTIMPL_HPP__ */
+}
+
+/**
+* Swap OpenGL Buffers
+*/
+void GlContextImpl::swap()
+{
+    
+}
