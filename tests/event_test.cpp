@@ -59,6 +59,29 @@ public:
     virtual void OnKeyUp(const glul::Keyboard& keyboard)
     {
         std::cout << "Key Up" << std::endl;
+        
+        if(keyboard.isKeyDown(Keyboard::KEY_RETURN))
+        {
+        }
+    }
+    
+    /**
+    * OpenGL Render Function
+    */
+    virtual void OnRender()
+    {
+        // Clear The Screen And The Depth Buffer
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);      
+        glLoadIdentity();
+        
+        glBegin(GL_TRIANGLES);
+            glColor3f(1, 0, 0);
+            glVertex3f( 0.0f, 1.0f, 0.0f);              // Top
+            glColor3f(0, 1, 0);
+            glVertex3f(-1.0f,-1.0f, 0.0f);              // Bottom Left
+            glColor3f(0, 0, 1);
+            glVertex3f( 1.0f,-1.0f, 0.0f);              // Bottom Right
+        glEnd();
     }
     
 };
