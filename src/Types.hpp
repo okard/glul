@@ -24,6 +24,8 @@ THE SOFTWARE.
 #ifndef __TYPES_HPP__
 #define __TYPES_HPP__
 
+namespace glul {
+    
 /**
 * Point
 */
@@ -43,5 +45,7 @@ struct Rect
     int width;
     int height;
 };
+
+}//end namespace glul
 
 #endif //__TYPES_HPP__
