@@ -56,6 +56,8 @@ GlContextImpl::GlContextImpl(Window& win)
     //match visual
     //set visual?
     //implement context sharing
+        
+    //try to get an OpenGL 3, 4 Context
 }
 
 /**

@@ -27,8 +27,11 @@
 #include <glul/Self.hpp>
 #include <glul/Window.hpp>
 
-#include "../glew/glew.h"
-#include "../glew/glxew.h"
+#include <X11/Xlib.h>
+#include <X11/Xutil.h>
+#include <GL/gl.h>
+#include <GL/glx.h>
+
 
 namespace glul {
 

@@ -23,8 +23,6 @@
 */
 #include <glul/GlWindow.hpp>
 
-#include "glew/Glew.hpp"
-
 using namespace glul;
 
 
@@ -44,9 +42,6 @@ GlWindow::GlWindow(const char* title, int width, int height)
     r.width = width;
     r.height = height;
     OnResize(r);
-    
-    //initialize Glew
-    Glew.init();
 }
         
 /**

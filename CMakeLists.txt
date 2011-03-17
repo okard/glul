@@ -39,8 +39,6 @@ add_definitions(-DGLEW_STATIC) # GLEW_BUILD for dll/so
 # Library
 add_library(glul SHARED
             ${GLUL_PLATFORM_SRC}
-            src/glew/glew.c
-            src/glew/Glew.cpp
             src/EventLoop.cpp
             src/Window.cpp
             src/GlWindow.cpp)
