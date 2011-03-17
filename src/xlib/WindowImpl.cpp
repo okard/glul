@@ -25,9 +25,9 @@
 
 #include <map>
 
-#include <glul/EventLoop>
-#include <glul/Window>
-#include <glul/Keyboard>
+#include <glul/EventLoop.hpp>
+#include <glul/Window.hpp>
+#include <glul/Keyboard.hpp>
 
 //namespace
 using namespace glul;

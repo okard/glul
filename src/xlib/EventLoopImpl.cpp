@@ -23,9 +23,9 @@
 */
 #include "EventLoopImpl.hpp"
 
-#include <glul/EventLoop>
-#include <glul/Window>
-#include <glul/Exception>
+#include <glul/EventLoop.hpp>
+#include <glul/Window.hpp>
+#include <glul/Exception.hpp>
 
 using namespace glul;
 

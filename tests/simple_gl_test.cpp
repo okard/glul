@@ -22,9 +22,9 @@
     THE SOFTWARE.
 */
 
-#include <glul/EventLoop>
-#include <glul/GlWindow>
-#include <glul/GlContext>
+#include <glul/EventLoop.hpp>
+#include <glul/GlWindow.hpp>
+#include <glul/GlContext.hpp>
 
 using namespace glul;
 

@@ -26,8 +26,8 @@
 
 #include <X11/Xlib.h>
 
-#include <glul/Self>
-#include <glul/Types>
+#include <glul/Self.hpp>
+#include <glul/Types.hpp>
 
 namespace glul {
 

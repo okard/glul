@@ -22,8 +22,8 @@
     THE SOFTWARE.
 */ 
 
-#include <glul/EventLoop>
-#include <glul/Window>
+#include <glul/EventLoop.hpp>
+#include <glul/Window.hpp>
 
 
 int main(int argc, char *argv[])

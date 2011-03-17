@@ -28,7 +28,7 @@
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 
-#include "../Self.hpp"
+#include <glul/Self.hpp>
 
 namespace glul {
     

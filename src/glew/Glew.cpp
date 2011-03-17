@@ -23,7 +23,7 @@
 */
 #include "Glew.hpp"
 
-#include <glul/Exception>
+#include <glul/Exception.hpp>
 
 using namespace glul;
 

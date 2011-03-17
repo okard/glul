@@ -24,8 +24,8 @@
 #ifndef __GLCONTEXTIMPL_HPP__
 #define __GLCONTEXTIMPL_HPP__
 
-#include <glul/Self>
-#include <glul/Window>
+#include <glul/Self.hpp>
+#include <glul/Window.hpp>
 
 #include "../glew/glew.h"
 #include "../glew/glxew.h"
